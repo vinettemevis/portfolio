@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Blue hour → dawn: lifted from near-black into a lit indigo sky */
+  --background: 222 39% 12%;
+  --foreground: 40 30% 97%;
+  --muted-foreground: 220 16% 74%;
+  --primary: 18 90% 60%;
+  --primary-foreground: 222 44% 10%;
+  --accent: 40 96% 68%;
+  --ocean: 190 72% 58%;
+  --glow: 28 92% 62%;
+  --card: 222 36% 15%;
+  --border: 222 26% 24%;
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.35);
+    color: hsl(var(--foreground));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--accent));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@layer utilities {
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* soft radial sunrise halo behind the globe so it reads as lit, not a black disc */
+  .sunrise-glow {
+    background: radial-gradient(
+      60% 50% at 50% 45%,
+      hsl(var(--glow) / 0.16),
+      transparent 70%
+    );
+  }
+}
