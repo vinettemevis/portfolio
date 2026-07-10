@@ -1,20 +1,33 @@
-# Vinette Sequeira · Portfolio
+# Hi, I'm Vinette 👋
 
-Single-page PM portfolio with a procedural 3D globe backdrop (React Three Fiber), travel-themed sections, and Framer Motion scroll animations.
+Product Manager at [CallHub](https://callhub.io), based in Bengaluru, India — building the P2P texting, AI quality/coaching, and billing products that political, advocacy, labor, and nonprofit organizations run on.
 
-**Run:** `npm install && npm run dev`
+**[vinette.dev →](https://vinettemevis.github.io/portfolio/)**
 
-**Deploy:** `npm run build`, then serve the `dist/` folder anywhere static (Vercel, Netlify, GitHub Pages). Zero external assets; everything is generated in code.
+## What I do
 
-## Stack
+I look for the task someone still does by hand, at real cost to their time, and build the software that carries it for them. Nine years in B2B SaaS — seven in quality engineering, now in product — and that instinct still decides what I work on.
 
-React 18 · Vite 5 · TypeScript · Tailwind CSS · shadcn/ui primitives · @react-three/fiber + drei · Framer Motion · lucide-react
+At CallHub I lead Team Eagle (P2P texting, agent quality, integrations, billing):
 
-## Structure
+- **Recurring Campaigns** — the engine behind CallHub's SEIU Local 503 case study. Took a 75,000-member union from 7–8 years of manual yearly rebuilds to a 15-minute setup across 104 campaigns, saving a service ~40,000 workers rely on.
+- **Agent Quality & Coaching** — an AI layer that scores call transcripts (script coverage, objection handling, rapport, goals), auto-assigns coaching, and prices per agent-day with proven ROI.
+- **AI mock-call training** — a two-time internal hackathon win, now in production: managers upload a script once and agents rehearse against AI personas with instant scoring.
+- **Credit expiry policy** — turned $1.06M in deferred revenue into recognized revenue while re-engaging inactive accounts.
+- **Salesforce AutoSync** and CallHub's first paid AI features (usage-based billing), plus the CallHub MCP server to open the platform to AI assistants and agentic workflows.
 
-- `src/components/Globe.tsx` — the full 3D layer: Fibonacci-sphere dots, fresnel atmosphere, career-stop pins with hover tooltips, animated travel arcs
-- `src/components/sections/` — Hero, About, Itinerary, Expeditions, Toolkit, Contact, Footer
-- `src/index.css` — dusk/horizon palette as CSS variables
-- `public/Vinette_Sequeira_PM.pdf` — resume served by the Download resume link
+Before product: senior QA at [SpotDraft](https://spotdraft.com) (CLM SaaS), quality engineering at [Kaleyra](https://kaleyra.com) (voice/SMS/WhatsApp CPaaS), and mobile QA at Wieland IT Solutions.
 
-Reduced-motion and mobile fallbacks are built in: the globe freezes to a static frame under `prefers-reduced-motion`, and drops dot/arc counts, drag, and DPR below 768px.
+## Currently into
+
+Product strategy and discovery, AI agent design and evaluation, prompt engineering, MCP, and figuring out what LLM-powered features actually deserve to ship vs. just look good in a demo.
+
+## Elsewhere
+
+- 📄 [Resume](./public/Vinette_Sequeira_PM.pdf)
+- 💼 [LinkedIn](https://www.linkedin.com/in/vinette-sequeira/)
+- ✉️ [vinette.vs@gmail.com](mailto:vinette.vs@gmail.com)
+
+---
+
+*This repo is the source for my portfolio site — a single-page site with a procedural 3D globe backdrop, built with React, Vite, TypeScript, Tailwind, and React Three Fiber.*
