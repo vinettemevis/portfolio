@@ -1,58 +1,53 @@
-import type { Palette, StageColors, TimeOfDay } from "@/types/portfolio";
+import type { Palette, SkyBand, TimeOfDay } from "@/types/portfolio";
 
 /**
- * "Blue hour → dawn" treatment.
- * All values are HSL triplets ("H S% L%") meant to be consumed as `hsl(var(--token))`
- * or passed to three.js via `hsl(${value})` string construction.
+ * "Traveler's atlas at dawn" — V4 brightness lift. All values are HSL
+ * triplets ("H S% L%") consumed as `hsl(var(--token))` in CSS or via
+ * `hsl(${value})` string construction for three.js.
+ *
+ * PALETTE mirrors the :root vars in index.css — keep the two in sync.
+ * muted must hold >= 4.5:1 (WCAG AA) against BOTH background and surface.
  */
 export const PALETTE: Palette = {
-  background: "222 39% 12%",
-  foreground: "40 30% 97%",
-  muted: "220 16% 74%",
-  primary: "18 90% 60%",
-  accent: "40 96% 68%",
-  ocean: "190 72% 58%",
-  glow: "28 92% 62%",
+  background: "214 32% 24%",
+  surface: "215 30% 28%",
+  foreground: "40 30% 98%",
+  muted: "214 18% 82%",
+  primary: "18 92% 62%",
+  accent: "42 96% 68%",
+  ocean: "196 78% 62%",
 };
 
 /**
- * Scroll-driven scene grading: the globe warms and brightens across the page,
- * then settles into a lit indigo dusk (never back to black).
- *
- * - atmosphere: fresnel rim tint
- * - keyLight:   directional key light color
- * - dot:        surface point cloud color
- * - bg:         scene / clear background (kept 10%–18% lightness for text contrast)
+ * Per-time-of-day sky gradients for the city backgrounds. These run lighter
+ * than the base page background so each section feels airy, and together
+ * they progress dawn -> bright day -> golden -> dusk -> soft night down the
+ * page (never back to black — night keeps warm, lit windows).
  */
-export const STAGE_COLORS: Record<TimeOfDay, StageColors> = {
+export const SKY_BANDS: Record<TimeOfDay, SkyBand> = {
   dawn: {
-    atmosphere: "14 80% 70%", // peach-rose rim
-    keyLight: "32 70% 72%", // soft warm sun just under the horizon
-    dot: "220 30% 92%", // cool off-white
-    bg: "228 34% 14%", // cool periwinkle sky
+    stops: ["24 70% 88%", "16 82% 78%", "280 40% 62%", "234 42% 34%"],
+    glow: "18 90% 72%",
+    silhouette: "250 32% 30%",
   },
-  morning: {
-    atmosphere: "40 90% 70%", // warming toward gold
-    keyLight: "45 42% 84%", // brighter, whiter sun
-    dot: "45 25% 95%",
-    bg: "220 30% 16%", // clearer, lifted blue
-  },
-  noon: {
-    atmosphere: "205 70% 78%", // pale sky blue
-    keyLight: "50 15% 95%", // near-white, brightest stage
-    dot: "210 20% 97%", // high-legibility
-    bg: "215 25% 18%", // brightest allowable sky
+  day: {
+    stops: ["200 70% 90%", "199 76% 78%", "202 70% 62%", "210 55% 42%"],
+    glow: "45 85% 78%",
+    silhouette: "212 40% 32%",
   },
   golden: {
-    atmosphere: "30 95% 62%", // orange-gold hour
-    keyLight: "35 90% 66%", // warm amber sun
-    dot: "35 30% 92%", // warmed off-white
-    bg: "245 30% 15%", // sky warms slightly toward violet
+    stops: ["32 88% 84%", "24 90% 68%", "12 78% 52%", "255 32% 30%"],
+    glow: "28 95% 70%",
+    silhouette: "18 40% 26%",
   },
   dusk: {
-    atmosphere: "330 75% 64%", // magenta-rose afterglow
-    keyLight: "24 80% 60%", // low warm ember light
-    dot: "260 25% 88%", // twilight lavender-white
-    bg: "240 35% 12%", // deep indigo, still clearly lit
+    stops: ["272 42% 60%", "285 46% 42%", "255 44% 28%", "236 40% 18%"],
+    glow: "300 70% 70%",
+    silhouette: "255 30% 20%",
+  },
+  night: {
+    stops: ["224 36% 36%", "224 34% 29%", "222 32% 22%", "220 30% 17%"],
+    glow: "38 90% 70%",
+    silhouette: "222 28% 14%",
   },
 };

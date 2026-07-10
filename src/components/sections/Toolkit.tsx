@@ -12,6 +12,7 @@ import {
   Users,
   Wand2,
 } from "lucide-react";
+import SectionShell from "@/components/SectionShell";
 import { Reveal, RevealItem, SectionHeading } from "@/components/motion";
 import { t } from "@/lib/copy";
 
@@ -32,11 +33,7 @@ const TOOLS = [
 
 export default function Toolkit() {
   return (
-    <section
-      id="toolkit"
-      aria-label="Skills and toolkit"
-      className="mx-auto max-w-5xl px-6 py-28 sm:py-36"
-    >
+    <SectionShell id="toolkit" ariaLabel="Skills and toolkit">
       <SectionHeading eyebrow={t("toolkit.eyebrow")} title={t("toolkit.title")} />
 
       <Reveal stagger className="mt-14 flex flex-wrap gap-3">
@@ -49,6 +46,6 @@ export default function Toolkit() {
           </RevealItem>
         ))}
       </Reveal>
-    </section>
+    </SectionShell>
   );
 }

@@ -2,6 +2,7 @@ import { useRef, type PropsWithChildren } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import SectionShell from "@/components/SectionShell";
 import { Reveal, RevealItem, SectionHeading } from "@/components/motion";
 import { usePrefersReducedMotion } from "@/lib/hooks";
 import { t } from "@/lib/copy";
@@ -71,26 +72,22 @@ function Leg({ label, text }: { label: string; text: string }) {
 
 export default function Expeditions() {
   return (
-    <section
-      id="expeditions"
-      aria-label="Featured work"
-      className="mx-auto max-w-6xl px-6 py-28 sm:py-36"
-    >
+    <SectionShell id="expeditions" ariaLabel="Featured work" panelClassName="max-w-4xl">
       <SectionHeading eyebrow={t("expeditions.eyebrow")} title={t("expeditions.title")} />
 
-      <Reveal stagger className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3">
+      <Reveal stagger className="mt-16 flex flex-col gap-6">
         {EXPEDITIONS.map((exp) => (
           <RevealItem key={exp.name} className="h-full">
             <TiltCard>
-              <Card className="flex h-full flex-col transition-colors hover:border-primary/40">
-                <CardHeader>
+              <Card className="flex h-full flex-col transition-colors hover:border-primary/40 lg:flex-row">
+                <CardHeader className="lg:w-[38%] lg:shrink-0">
                   <Badge variant="outline" className="mb-3 self-start">
                     {exp.tag}
                   </Badge>
                   <CardTitle>{exp.name}</CardTitle>
                   <CardDescription>{exp.context}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex flex-1 flex-col gap-5">
+                <CardContent className="flex flex-1 flex-col gap-5 lg:pt-6">
                   <Leg label="Problem" text={exp.problem} />
                   <Leg label="Approach" text={exp.approach} />
                   <div className="mt-auto rounded-xl border border-primary/25 bg-primary/5 p-4">
@@ -107,6 +104,6 @@ export default function Expeditions() {
           </RevealItem>
         ))}
       </Reveal>
-    </section>
+    </SectionShell>
   );
 }

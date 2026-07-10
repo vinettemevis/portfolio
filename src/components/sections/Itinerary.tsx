@@ -1,17 +1,20 @@
 import { MapPin } from "lucide-react";
+import SectionShell from "@/components/SectionShell";
 import { Reveal, RevealItem, SectionHeading } from "@/components/motion";
 import { t } from "@/lib/copy";
 
 const STOPS: Array<{
   role: string;
   company: string;
+  place: string;
   dates: string;
   outcome: string;
   current?: boolean;
 }> = [
   {
-    role: "Product Manager",
+    role: "Associate Product Manager",
     company: "CallHub",
+    place: "Bengaluru",
     dates: "Jan 2025 to Present",
     outcome: t("itinerary.stop1.outcome"),
     current: true,
@@ -19,24 +22,28 @@ const STOPS: Array<{
   {
     role: "Senior QA Engineer",
     company: "SpotDraft",
+    place: "Bengaluru",
     dates: "Jun 2022 to Dec 2024",
     outcome: t("itinerary.stop2.outcome"),
   },
   {
     role: "Software Quality Engineer",
     company: "Kaleyra",
+    place: "Bengaluru",
     dates: "Nov 2019 to Jun 2022",
     outcome: t("itinerary.stop3.outcome"),
   },
   {
-    role: "Software Engineer, QA",
+    role: "Software Engineer",
     company: "Wieland IT Solutions",
+    place: "Bangalore",
     dates: "May 2019 to Oct 2019",
     outcome: t("itinerary.stop4.outcome"),
   },
   {
     role: "Associate Software Engineer",
     company: "Teknotrait Solutions",
+    place: "Bangalore",
     dates: "Jul 2017 to May 2019",
     outcome: t("itinerary.stop5.outcome"),
   },
@@ -44,15 +51,10 @@ const STOPS: Array<{
 
 export default function Itinerary() {
   return (
-    <section
-      id="itinerary"
-      aria-label="Career itinerary"
-      className="mx-auto max-w-5xl px-6 py-28 sm:py-36"
-    >
+    <SectionShell id="itinerary" ariaLabel="Career itinerary">
       <SectionHeading eyebrow={t("itinerary.eyebrow")} title={t("itinerary.title")} />
 
       <Reveal stagger className="relative mt-16">
-        {/* route line */}
         <div
           aria-hidden
           className="absolute bottom-4 left-[15px] top-2 w-px bg-gradient-to-b from-[hsl(var(--primary))] via-[hsl(var(--border))] to-transparent"
@@ -79,7 +81,7 @@ export default function Itinerary() {
                       </span>
                     </h3>
                     <span className="text-sm text-muted-foreground tabular-nums">
-                      {stop.dates}
+                      {stop.place} · {stop.dates}
                     </span>
                   </div>
                   <p className="mt-2 max-w-2xl text-muted-foreground">
@@ -91,6 +93,6 @@ export default function Itinerary() {
           ))}
         </ol>
       </Reveal>
-    </section>
+    </SectionShell>
   );
 }

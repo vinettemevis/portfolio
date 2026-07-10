@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { animate, useInView } from "framer-motion";
+import SectionShell from "@/components/SectionShell";
 import { Reveal, RevealItem, SectionHeading } from "@/components/motion";
 import { usePrefersReducedMotion } from "@/lib/hooks";
 import { t } from "@/lib/copy";
@@ -58,7 +59,7 @@ const STATS: Array<{
 
 export default function About() {
   return (
-    <section id="about" aria-label="About" className="mx-auto max-w-5xl px-6 py-28 sm:py-36">
+    <SectionShell id="about" ariaLabel="About">
       <SectionHeading eyebrow={t("about.eyebrow")} title={t("about.title")} />
 
       <Reveal className="mt-8 max-w-3xl">
@@ -85,6 +86,6 @@ export default function About() {
           </RevealItem>
         ))}
       </Reveal>
-    </section>
+    </SectionShell>
   );
 }

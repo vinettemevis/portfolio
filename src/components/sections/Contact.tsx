@@ -1,6 +1,8 @@
 import { FileDown, Linkedin, Mail } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import GlobeAccent from "@/components/GlobeAccent";
+import SectionShell from "@/components/SectionShell";
 import { Reveal, RevealItem } from "@/components/motion";
 import { accentify, t } from "@/lib/copy";
 
@@ -24,10 +26,18 @@ const LINKS = [
 
 export default function Contact() {
   return (
-    <section
+    <SectionShell
       id="contact"
-      aria-label="Contact"
-      className="mx-auto max-w-4xl px-6 py-32 text-center sm:py-44"
+      ariaLabel="Contact"
+      panelClassName="max-w-4xl text-center"
+      overlay={
+        <div
+          className="pointer-events-none absolute -bottom-4 left-1/2 z-0 h-20 w-20 -translate-x-1/2 sm:-bottom-6 sm:h-36 sm:w-36 md:h-44 md:w-44"
+          aria-hidden
+        >
+          <GlobeAccent placement="contact-corner" />
+        </div>
+      }
     >
       <Reveal stagger className="flex flex-col items-center">
         <RevealItem>
@@ -74,6 +84,6 @@ export default function Contact() {
           </div>
         </RevealItem>
       </Reveal>
-    </section>
+    </SectionShell>
   );
 }

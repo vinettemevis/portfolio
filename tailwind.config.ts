@@ -6,6 +6,7 @@ export default {
     extend: {
       colors: {
         background: "hsl(var(--background))",
+        surface: "hsl(var(--surface))",
         foreground: "hsl(var(--foreground))",
         "muted-foreground": "hsl(var(--muted-foreground))",
         primary: {

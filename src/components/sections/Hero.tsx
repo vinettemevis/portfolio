@@ -3,6 +3,8 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button, type ButtonProps } from "@/components/ui/button";
+import GlobeAccent from "@/components/GlobeAccent";
+import SectionShell from "@/components/SectionShell";
 import { Reveal, RevealItem } from "@/components/motion";
 import { usePrefersReducedMotion } from "@/lib/hooks";
 import { accentify, t } from "@/lib/copy";
@@ -54,21 +56,39 @@ export default function Hero() {
   const reducedMotion = usePrefersReducedMotion();
 
   return (
-    <header
+    <SectionShell
+      as="header"
       id="top"
-      className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center"
-    >
-      {/* radial scrim so hero copy stays readable over the brighter dawn globe */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 58% at 50% 48%, hsl(var(--background) / 0.8), hsl(var(--background) / 0.35) 55%, transparent 75%)",
-        }}
-      />
+      panelClassName="text-center"
+      overlay={
+        <>
+          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+            <motion.button
+              type="button"
+              aria-label="Scroll to the story section"
+              onClick={() => scrollTo("story")}
+              className="text-muted-foreground transition-colors hover:text-accent"
+              animate={reducedMotion ? undefined : { y: [0, 8, 0] }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ChevronDown className="h-6 w-6" />
+            </motion.button>
+          </div>
 
-      <Reveal stagger className="relative flex max-w-5xl flex-col items-center">
+          {/* small bright globe accent, parked bottom-right and partially
+              off-canvas — a decoration, never the backdrop. SectionShell
+              clips overflow, so this stays clear of any horizontal scroll
+              even where it hangs off the edge on larger screens. */}
+          <div
+            className="pointer-events-none absolute -bottom-5 -right-5 z-0 h-24 w-24 sm:-bottom-8 sm:-right-8 sm:h-40 sm:w-40 md:h-52 md:w-52 lg:h-64 lg:w-64"
+            aria-hidden
+          >
+            <GlobeAccent placement="hero-corner" />
+          </div>
+        </>
+      }
+    >
+      <Reveal stagger className="relative mx-auto flex max-w-5xl flex-col items-center">
         <RevealItem>
           <Badge className="mb-8">
             <span
@@ -111,17 +131,6 @@ export default function Hero() {
           </div>
         </RevealItem>
       </Reveal>
-
-      <motion.button
-        type="button"
-        aria-label="Scroll to about section"
-        onClick={() => scrollTo("about")}
-        className="absolute bottom-8 text-muted-foreground transition-colors hover:text-accent"
-        animate={reducedMotion ? undefined : { y: [0, 8, 0] }}
-        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-      >
-        <ChevronDown className="h-6 w-6" />
-      </motion.button>
-    </header>
+    </SectionShell>
   );
 }

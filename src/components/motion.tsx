@@ -1,12 +1,14 @@
 import { motion, type Variants } from "framer-motion";
 import type { PropsWithChildren } from "react";
 
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
 export const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: "easeOut" },
+    transition: { duration: 0.7, ease: EASE },
   },
 };
 
