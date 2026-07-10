@@ -1,33 +1,42 @@
-# Hi, I'm Vinette 👋
+# Vinette Sequeira — Portfolio
 
-Product Manager at [CallHub](https://callhub.io), based in Bengaluru, India — building the P2P texting, AI quality/coaching, and billing products that political, advocacy, labor, and nonprofit organizations run on.
+A single-page personal portfolio themed as a vintage travel atlas / boarding
+pass. Warm paper tones, editorial serif headlines, an atlas-ink blue accent,
+and two signature interactions:
 
-**[vinette.dev →](https://vinettemevis.github.io/portfolio/)**
+- **The flight route** — one continuous dashed line runs down the whole page.
+  A plane travels along it, driven by scroll progress, filling in a dashed
+  trail behind it, with passport-stamp waypoints at each section.
+- **City skylines** — recognizable engraved SVG line-art horizons per section
+  (Bengaluru, Tokyo, New York, London, Singapore) with gentle parallax.
 
-## What I do
+## Run
 
-I look for the task someone still does by hand, at real cost to their time, and build the software that carries it for them. Nine years in B2B SaaS — seven in quality engineering, now in product — and that instinct still decides what I work on.
+```sh
+npm install
+npm run dev
+```
 
-At CallHub I lead Team Eagle (P2P texting, agent quality, integrations, billing):
+Production build: `npm run build` (output in `dist/`), preview with
+`npm run preview`.
 
-- **Recurring Campaigns** — the engine behind CallHub's SEIU Local 503 case study. Took a 75,000-member union from 7–8 years of manual yearly rebuilds to a 15-minute setup across 104 campaigns, saving a service ~40,000 workers rely on.
-- **Agent Quality & Coaching** — an AI layer that scores call transcripts (script coverage, objection handling, rapport, goals), auto-assigns coaching, and prices per agent-day with proven ROI.
-- **AI mock-call training** — a two-time internal hackathon win, now in production: managers upload a script once and agents rehearse against AI personas with instant scoring.
-- **Credit expiry policy** — turned $1.06M in deferred revenue into recognized revenue while re-engaging inactive accounts.
-- **Salesforce AutoSync** and CallHub's first paid AI features (usage-based billing), plus the CallHub MCP server to open the platform to AI assistants and agentic workflows.
+## Stack
 
-Before product: senior QA at [SpotDraft](https://spotdraft.com) (CLM SaaS), quality engineering at [Kaleyra](https://kaleyra.com) (voice/SMS/WhatsApp CPaaS), and mobile QA at Wieland IT Solutions.
+React 18 · Vite 5 · TypeScript · Tailwind CSS 3 · Framer Motion 11 ·
+shadcn/ui-style components (cva + tailwind-merge) · lucide-react.
 
-## Currently into
+Everything is self-contained HTML/SVG/CSS + Framer Motion — no WebGL, no
+external assets beyond Google Fonts (Fraunces + Inter).
 
-Product strategy and discovery, AI agent design and evaluation, prompt engineering, MCP, and figuring out what LLM-powered features actually deserve to ship vs. just look good in a demo.
+## Notes
 
-## Elsewhere
-
-- 📄 [Resume](./public/Vinette_Sequeira_PM.pdf)
-- 💼 [LinkedIn](https://www.linkedin.com/in/vinette-sequeira/)
-- ✉️ [vinette.vs@gmail.com](mailto:vinette.vs@gmail.com)
-
----
-
-*This repo is the source for my portfolio site — a single-page site with a procedural 3D globe backdrop, built with React, Vite, TypeScript, Tailwind, and React Three Fiber.*
+- Palette lives as HSL CSS variables in `src/index.css` and is wired into
+  Tailwind tokens in `tailwind.config.ts` (`paper`, `ink`, `accent`, `teal`,
+  `gold`, `line`).
+- `FlightRoute` accepts `marker="bird"` for a wing-flapping bird variant of
+  the travelling marker (default is the plane).
+- Full `prefers-reduced-motion` support: static route with the plane parked
+  at the section in view, no parallax, content simply fades in.
+- On mobile the route runs as a slim rail down the far left and skylines
+  drop their secondary detail.
+- `public/resume.pdf` is a placeholder — replace it with the real resume.

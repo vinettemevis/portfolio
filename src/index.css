@@ -3,99 +3,116 @@
 @tailwind utilities;
 
 :root {
-  /* "Traveler's atlas at dawn" — V4 brightness lift.
-     Mirrors src/config/palette.ts (PALETTE) — keep the two in sync.
-
-     --sky-lift is the single brightness dial: raise it (try 4-10) to lift
-     every background lightness across the whole site at once. */
-  --sky-lift: 0;
-  --bg-l: 24%;
-  --surface-l: 28%;
-  --background: 214 32% calc(var(--bg-l) + var(--sky-lift) * 1%);
-  --surface: 215 30% calc(var(--surface-l) + var(--sky-lift) * 1%);
-  --foreground: 40 30% 98%;
-  --muted-foreground: 214 18% 82%;
-  --primary: 18 92% 62%;
-  --primary-foreground: 20 40% 12%;
-  --accent: 42 96% 68%;
-  --ocean: 196 78% 62%;
-  --card: var(--surface);
-  --border: 214 22% calc(var(--surface-l) + 10% + var(--sky-lift) * 1%);
-  --font-display: "Fraunces", serif;
-  --font-body: "Inter", sans-serif;
+  --paper: 40 44% 96%;
+  --paper-alt: 36 38% 92%;
+  --ink: 26 28% 15%;
+  --ink-soft: 28 12% 40%;
+  --accent: 222 60% 47%; /* atlas-ink blue: route line, CTAs, highlights */
+  --teal: 190 42% 38%;
+  --gold: 38 78% 50%;
+  --line: 32 24% 80%;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  html {
-    scroll-behavior: smooth;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: var(--font-body);
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-display);
-  }
-
-  ::selection {
-    background: hsl(var(--primary) / 0.35);
-    color: hsl(var(--foreground));
-  }
-
-  :focus-visible {
-    outline: 2px solid hsl(var(--accent));
-    outline-offset: 3px;
-    border-radius: 2px;
-  }
-}
-
-@layer utilities {
-  .tabular-nums {
-    font-variant-numeric: tabular-nums;
-  }
-}
-
-/* Shared motion vocabulary for city-background layers (canvas + CSS fallback
-   alike lean on these keyframes so both read as the same system). */
-@keyframes city-cloud-drift {
-  from {
-    transform: translate3d(-4vw, 0, 0);
-  }
-  to {
-    transform: translate3d(4vw, 0, 0);
-  }
-}
-
-@keyframes city-window-twinkle {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 0.95;
-  }
+html {
+  /* non-static so framer-motion scroll offsets resolve without warnings */
+  position: relative;
+  scroll-behavior: smooth;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .city-motion-safe {
-    animation: none !important;
-    transform: none !important;
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: hsl(var(--paper));
+  color: hsl(var(--ink));
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Faint aged-paper grain over the whole page */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background-color: hsl(var(--accent) / 0.9);
+  color: hsl(var(--paper));
+}
+
+:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Flight-route SVG labels — only shown where the gutter is wide
+   enough that they can never sit on top of body copy */
+.route-code {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  fill: hsl(var(--teal));
+  visibility: hidden;
+}
+
+.route-name {
+  font-family: Fraunces, Georgia, serif;
+  font-style: italic;
+  font-size: 11px;
+  fill: hsl(var(--ink-soft));
+  visibility: hidden;
+}
+
+@media (min-width: 1440px) {
+  .route-code,
+  .route-name {
+    visibility: visible;
+  }
+}
+
+/* Keep engraving line weights constant at every scale */
+.skyline path,
+.skyline circle {
+  vector-effect: non-scaling-stroke;
+}
+
+/* Skylines drop their secondary detail on small screens */
+@media (max-width: 639px) {
+  .skyline-secondary {
+    display: none;
+  }
+}
+
+/* Bird marker wing flap */
+@keyframes wing-flap {
+  0%,
+  100% {
+    transform: rotate(24deg);
+  }
+  50% {
+    transform: rotate(-18deg);
+  }
+}
+
+.bird-wing {
+  transform-origin: 0px 0px;
+  animation: wing-flap 0.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bird-wing {
+    animation: none;
   }
 }

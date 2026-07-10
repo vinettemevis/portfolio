@@ -1,89 +1,98 @@
 import { FileDown, Linkedin, Mail } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import { Eyebrow, Magnetic, Reveal } from "@/components/motion";
+import Skyline from "@/components/Skyline";
 import { cn } from "@/lib/utils";
-import GlobeAccent from "@/components/GlobeAccent";
-import SectionShell from "@/components/SectionShell";
-import { Reveal, RevealItem } from "@/components/motion";
-import { accentify, t } from "@/lib/copy";
 
-const LINKS = [
+interface IconLink {
+  label: string;
+  href: string;
+  icon: typeof Linkedin;
+  external: boolean;
+  download?: boolean;
+}
+
+const ICON_LINKS: IconLink[] = [
   {
-    icon: Linkedin,
     label: "LinkedIn profile",
     href: "https://www.linkedin.com/in/vinette-sequeira/",
+    icon: Linkedin,
+    external: true,
   },
   {
-    icon: Mail,
     label: "Email Vinette",
     href: "mailto:vinette.vs@gmail.com",
+    icon: Mail,
+    external: false,
   },
   {
-    icon: FileDown,
     label: "Download resume",
-    href: "/Vinette_Sequeira_PM.pdf",
+    href: "/resume.pdf",
+    icon: FileDown,
+    external: false,
+    download: true,
   },
 ];
 
 export default function Contact() {
   return (
-    <SectionShell
+    <section
       id="contact"
-      ariaLabel="Contact"
-      panelClassName="max-w-4xl text-center"
-      overlay={
-        <div
-          className="pointer-events-none absolute -bottom-4 left-1/2 z-0 h-20 w-20 -translate-x-1/2 sm:-bottom-6 sm:h-36 sm:w-36 md:h-44 md:w-44"
-          aria-hidden
-        >
-          <GlobeAccent placement="contact-corner" />
-        </div>
-      }
+      className="relative overflow-hidden bg-paper pb-56 pt-28 sm:pb-80 sm:pt-40"
     >
-      <Reveal stagger className="flex flex-col items-center">
-        <RevealItem>
-          <p className="mb-3 text-sm font-medium uppercase tracking-[0.25em] text-[hsl(var(--ocean))]">
-            {t("contact.eyebrow")}
-          </p>
-        </RevealItem>
-        <RevealItem>
-          <h2 className="text-4xl font-semibold leading-[1.02] tracking-tight sm:text-6xl">
-            {accentify(t("contact.headline"))}
-          </h2>
-        </RevealItem>
-        <RevealItem>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-            {t("contact.subtext")}
-          </p>
-        </RevealItem>
-        <RevealItem>
-          <a
-            href="mailto:vinette.vs@gmail.com"
-            className={cn(
-              buttonVariants({ size: "lg" }),
-              "mt-10 rounded-full"
-            )}
-          >
-            <Mail className="h-4 w-4" aria-hidden />
-            vinette.vs@gmail.com
-          </a>
-        </RevealItem>
-        <RevealItem>
-          <div className="mt-10 flex items-center justify-center gap-4">
-            {LINKS.map(({ icon: Icon, label, href }) => (
-              <a
-                key={label}
-                href={href}
-                aria-label={label}
-                target={href.startsWith("http") ? "_blank" : undefined}
-                rel={href.startsWith("http") ? "noreferrer" : undefined}
-                className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card/70 text-muted-foreground transition-colors hover:border-accent/60 hover:text-accent"
-              >
-                <Icon className="h-5 w-5" aria-hidden />
-              </a>
-            ))}
-          </div>
-        </RevealItem>
-      </Reveal>
-    </SectionShell>
+      <div className="relative z-10 mx-auto w-full max-w-6xl pl-10 pr-6 sm:px-10 lg:px-16">
+        <div className="mx-auto max-w-2xl text-center">
+          <Reveal>
+            <div className="flex justify-center">
+              <Eyebrow>Plan the Next Leg</Eyebrow>
+            </div>
+            <h2 className="font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
+              The best products come from teams that{" "}
+              <em className="font-display italic text-accent">
+                travel well together
+              </em>
+              .
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-6 leading-relaxed text-ink-soft">
+              Building AI products that pay for themselves. If that belongs on
+              your roadmap, my inbox is open.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="mt-10 flex justify-center">
+              <Magnetic>
+                <a
+                  href="mailto:vinette.vs@gmail.com"
+                  className={cn(buttonVariants({ size: "lg" }))}
+                >
+                  vinette.vs@gmail.com
+                </a>
+              </Magnetic>
+            </div>
+            <ul className="mt-8 flex justify-center gap-3">
+              {ICON_LINKS.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    aria-label={l.label}
+                    download={l.download}
+                    {...(l.external
+                      ? { target: "_blank", rel: "noreferrer noopener" }
+                      : {})}
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-paper-alt text-ink-soft transition-colors duration-300 ease-atlas hover:border-accent hover:text-accent"
+                  >
+                    <l.icon aria-hidden className="h-[18px] w-[18px]" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </div>
+
+      <Skyline city="singapore" variant="sunrise" />
+    </section>
   );
 }

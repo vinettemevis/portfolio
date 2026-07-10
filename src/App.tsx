@@ -1,31 +1,29 @@
-import { MotionConfig } from "framer-motion";
+import FlightRoute from "@/components/FlightRoute";
 import Hero from "@/components/sections/Hero";
 import Story from "@/components/sections/Story";
-import About from "@/components/sections/About";
-import Itinerary from "@/components/sections/Itinerary";
+import Traveler from "@/components/sections/Traveler";
+import RouteSoFar from "@/components/sections/RouteSoFar";
 import Expeditions from "@/components/sections/Expeditions";
-import Toolkit from "@/components/sections/Toolkit";
+import Pack from "@/components/sections/Pack";
 import Contact from "@/components/sections/Contact";
-import Footer from "@/components/sections/Footer";
 
-/**
- * Every section owns its own city background (SectionShell) and, at most,
- * its own globe accent — there is no fixed full-viewport 3D layer anymore.
- * A failure in any one section's canvas can never affect another.
- */
 export default function App() {
   return (
-    <MotionConfig reducedMotion="user">
-      <Hero />
-      <main>
+    <div className="relative min-h-screen overflow-x-clip bg-paper text-ink">
+      <FlightRoute marker="plane" />
+      <main className="relative z-10">
+        <Hero />
         <Story />
-        <About />
-        <Itinerary />
+        <Traveler />
+        <RouteSoFar />
         <Expeditions />
-        <Toolkit />
+        <Pack />
         <Contact />
       </main>
-      <Footer />
-    </MotionConfig>
+      <footer className="relative z-10 border-t border-line bg-paper py-6 text-center text-xs text-ink-soft">
+        Vinette Sequeira · 2026 · Charted from Bengaluru. Next stop still being
+        drawn.
+      </footer>
+    </div>
   );
 }

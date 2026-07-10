@@ -1,136 +1,82 @@
-import { useRef, type PropsWithChildren } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Button, type ButtonProps } from "@/components/ui/button";
-import GlobeAccent from "@/components/GlobeAccent";
-import SectionShell from "@/components/SectionShell";
-import { Reveal, RevealItem } from "@/components/motion";
-import { usePrefersReducedMotion } from "@/lib/hooks";
-import { accentify, t } from "@/lib/copy";
-
-function MagneticButton({
-  children,
-  onClick,
-  ...props
-}: PropsWithChildren<ButtonProps>) {
-  const reducedMotion = usePrefersReducedMotion();
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 260, damping: 18 });
-  const sy = useSpring(y, { stiffness: 260, damping: 18 });
-
-  const onMouseMove = (e: React.MouseEvent) => {
-    if (reducedMotion || !wrapRef.current) return;
-    const rect = wrapRef.current.getBoundingClientRect();
-    x.set((e.clientX - (rect.left + rect.width / 2)) * 0.25);
-    y.set((e.clientY - (rect.top + rect.height / 2)) * 0.25);
-  };
-
-  const onMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.div
-      ref={wrapRef}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      style={{ x: sx, y: sy }}
-      whileHover={reducedMotion ? undefined : { scale: 1.03 }}
-      className="inline-block"
-    >
-      <Button onClick={onClick} {...props}>
-        {children}
-      </Button>
-    </motion.div>
-  );
-}
-
-const scrollTo = (id: string) =>
-  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+import { motion, useReducedMotion } from "framer-motion";
+import { ChevronDown, Plane } from "lucide-react";
+import { buttonVariants } from "@/components/ui/button";
+import { Magnetic, Reveal } from "@/components/motion";
+import Skyline from "@/components/Skyline";
+import { cn } from "@/lib/utils";
 
 export default function Hero() {
-  const reducedMotion = usePrefersReducedMotion();
+  const reduce = useReducedMotion();
 
   return (
-    <SectionShell
-      as="header"
-      id="top"
-      panelClassName="text-center"
-      overlay={
-        <>
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-            <motion.button
-              type="button"
-              aria-label="Scroll to the story section"
-              onClick={() => scrollTo("story")}
-              className="text-muted-foreground transition-colors hover:text-accent"
-              animate={reducedMotion ? undefined : { y: [0, 8, 0] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
-            >
-              <ChevronDown className="h-6 w-6" />
-            </motion.button>
-          </div>
-
-          {/* small bright globe accent, parked bottom-right and partially
-              off-canvas — a decoration, never the backdrop. SectionShell
-              clips overflow, so this stays clear of any horizontal scroll
-              even where it hangs off the edge on larger screens. */}
-          <div
-            className="pointer-events-none absolute -bottom-5 -right-5 z-0 h-24 w-24 sm:-bottom-8 sm:-right-8 sm:h-40 sm:w-40 md:h-52 md:w-52 lg:h-64 lg:w-64"
-            aria-hidden
-          >
-            <GlobeAccent placement="hero-corner" />
-          </div>
-        </>
-      }
+    <section
+      id="hero"
+      className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden bg-paper pb-52 pt-24 sm:pb-64"
     >
-      <Reveal stagger className="relative mx-auto flex max-w-5xl flex-col items-center">
-        <RevealItem>
-          <Badge className="mb-8">
-            <span
-              className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary"
-              aria-hidden
-            />
-            {t("hero.eyebrow")}
-          </Badge>
-        </RevealItem>
-
-        <RevealItem>
-          <h1 className="text-5xl font-semibold leading-[0.95] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
-            {accentify(t("hero.headline"))}
-          </h1>
-        </RevealItem>
-
-        <RevealItem>
-          <p className="mx-auto mt-8 max-w-2xl text-lg text-muted-foreground">
-            {t("hero.subtext")}
+      <div className="relative z-10 mx-auto w-full max-w-6xl pl-10 pr-6 sm:px-10 lg:px-16">
+        <Reveal>
+          <p className="inline-flex items-center gap-2.5 rounded-full border border-line bg-paper-alt px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.2em] text-teal shadow-warm">
+            <Plane aria-hidden className="h-3.5 w-3.5 text-accent" />
+            Associate Product Manager · CallHub · Bengaluru
           </p>
-        </RevealItem>
+        </Reveal>
 
-        <RevealItem>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <MagneticButton
-              size="lg"
-              className="rounded-full"
-              onClick={() => scrollTo("expeditions")}
-            >
-              {t("hero.cta.primary")}
-            </MagneticButton>
-            <MagneticButton
-              size="lg"
-              variant="ghost"
-              className="rounded-full"
-              onClick={() => scrollTo("contact")}
-            >
-              {t("hero.cta.secondary")}
-            </MagneticButton>
+        <Reveal delay={0.1}>
+          <h1 className="mt-8 max-w-4xl font-display text-5xl font-semibold leading-[1.04] tracking-tight text-ink sm:text-6xl lg:text-7xl">
+            I turn <em className="not-italic text-accent">messy problems</em>{" "}
+            into products people{" "}
+            <em className="font-display italic text-accent">actually</em>{" "}
+            use.
+          </h1>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <p className="mt-7 max-w-2xl text-lg leading-relaxed text-ink-soft">
+            Product manager for CallHub&rsquo;s P2P texting and AI suite, based
+            in Bengaluru. Nine years in B2B SaaS, from the QA trenches to
+            owning products that unlock revenue and save real programs.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.3}>
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            <Magnetic>
+              <a href="#expeditions" className={cn(buttonVariants({ size: "lg" }))}>
+                View the work
+              </a>
+            </Magnetic>
+            <Magnetic>
+              <a
+                href="#contact"
+                className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
+              >
+                Get in touch
+              </a>
+            </Magnetic>
           </div>
-        </RevealItem>
-      </Reveal>
-    </SectionShell>
+          <p className="mt-8 text-[0.7rem] font-medium uppercase tracking-[0.3em] text-ink-soft/70">
+            12.97° N · 77.59° E — Home port
+          </p>
+        </Reveal>
+      </div>
+
+      {/* Scroll cue */}
+      <div className="absolute bottom-6 left-1/2 z-10 -translate-x-1/2">
+        <motion.a
+          href="#story"
+          aria-label="Scroll to the next section"
+          className="flex flex-col items-center gap-1 text-ink-soft/80 transition-colors hover:text-accent"
+          animate={reduce ? undefined : { y: [0, 7, 0] }}
+          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <span className="text-[0.65rem] font-semibold uppercase tracking-[0.3em]">
+            Scroll
+          </span>
+          <ChevronDown aria-hidden className="h-4 w-4" />
+        </motion.a>
+      </div>
+
+      <Skyline city="bangalore" variant="dawn" />
+    </section>
   );
 }

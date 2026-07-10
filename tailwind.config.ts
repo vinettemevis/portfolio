@@ -5,22 +5,26 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "hsl(var(--background))",
-        surface: "hsl(var(--surface))",
-        foreground: "hsl(var(--foreground))",
-        "muted-foreground": "hsl(var(--muted-foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        accent: "hsl(var(--accent))",
-        ocean: "hsl(var(--ocean))",
-        card: "hsl(var(--card))",
-        border: "hsl(var(--border))",
+        paper: "hsl(var(--paper) / <alpha-value>)",
+        "paper-alt": "hsl(var(--paper-alt) / <alpha-value>)",
+        ink: "hsl(var(--ink) / <alpha-value>)",
+        "ink-soft": "hsl(var(--ink-soft) / <alpha-value>)",
+        accent: "hsl(var(--accent) / <alpha-value>)",
+        teal: "hsl(var(--teal) / <alpha-value>)",
+        gold: "hsl(var(--gold) / <alpha-value>)",
+        line: "hsl(var(--line) / <alpha-value>)",
       },
       fontFamily: {
-        display: ["var(--font-display)"],
-        body: ["var(--font-body)"],
+        display: ["Fraunces", "Georgia", "Cambria", "serif"],
+        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+      },
+      boxShadow: {
+        warm: "0 2px 6px -2px hsl(26 28% 15% / 0.06), 0 14px 36px -14px hsl(26 28% 15% / 0.14)",
+        "warm-lg":
+          "0 4px 10px -4px hsl(26 28% 15% / 0.08), 0 24px 56px -20px hsl(26 28% 15% / 0.2)",
+      },
+      transitionTimingFunction: {
+        atlas: "cubic-bezier(0.16, 1, 0.3, 1)",
       },
     },
   },
