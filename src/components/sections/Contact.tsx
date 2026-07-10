@@ -27,7 +27,7 @@ const ICON_LINKS: IconLink[] = [
   },
   {
     label: "Download resume",
-    href: "/resume.pdf",
+    href: "/Vinette%20Sequeira%20PM.pdf",
     icon: FileDown,
     external: false,
     download: true,

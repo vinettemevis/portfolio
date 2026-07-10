@@ -39,4 +39,4 @@ external assets beyond Google Fonts (Fraunces + Inter).
   at the section in view, no parallax, content simply fades in.
 - On mobile the route runs as a slim rail down the far left and skylines
   drop their secondary detail.
-- `public/resume.pdf` is a placeholder — replace it with the real resume.
+- `public/Vinette Sequeira PM.pdf` is the resume served by the portfolio.
