@@ -88,10 +88,73 @@ body::after {
   vector-effect: non-scaling-stroke;
 }
 
-/* Skylines drop their secondary detail on small screens */
+/* Keep the city backgrounds substantial enough to read on phones. The
+   vertical scale grows slightly on narrow viewports without affecting layout,
+   because every skyline is anchored inside an absolute wrapper. */
+.skyline {
+  height: clamp(7rem, 20vw, 15rem);
+}
+
+.skyline-atmosphere {
+  opacity: 0.7;
+}
+
+.skyline-marginalia {
+  color: hsl(var(--ink));
+  opacity: 0.055;
+  /* Quietest through the reading column, stronger at the page edges. */
+  mask-image: linear-gradient(
+    90deg,
+    #000 0%,
+    rgb(0 0 0 / 0.42) 18%,
+    rgb(0 0 0 / 0.12) 38%,
+    rgb(0 0 0 / 0.16) 68%,
+    rgb(0 0 0 / 0.7) 88%,
+    #000 100%
+  );
+}
+
+.skyline-marginalia-lines {
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.skyline-marginalia-type {
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+}
+
+/* Phones retain architectural detail; only the tiny engraving marks fall
+   away, preventing a muddy raster at narrow widths. */
 @media (max-width: 639px) {
-  .skyline-secondary {
+  .skyline {
+    height: clamp(7rem, 31vw, 8.5rem);
+  }
+
+  .skyline-fine,
+  .skyline-hatching {
     display: none;
+  }
+
+  .skyline-secondary {
+    opacity: 0.72;
+  }
+
+  .skyline-atmosphere {
+    opacity: 0.45;
+  }
+
+  .skyline-marginalia {
+    opacity: 0.038;
+    mask-image: linear-gradient(
+      90deg,
+      rgb(0 0 0 / 0.28),
+      rgb(0 0 0 / 0.08) 35%,
+      rgb(0 0 0 / 0.16) 72%,
+      rgb(0 0 0 / 0.52)
+    );
   }
 }
 

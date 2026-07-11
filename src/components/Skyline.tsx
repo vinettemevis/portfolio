@@ -42,6 +42,141 @@ const SUN = {
   fill: "none",
 } as const;
 
+const DEPTH = {
+  stroke: "hsl(var(--ink))",
+  strokeOpacity: 0.1,
+  strokeWidth: 1.15,
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
+  fill: "hsl(var(--ink) / 0.018)",
+} as const;
+
+/** A quiet second row of buildings makes the skyline read as a city rather
+ * than a collection of landmarks. Fine hatching is allowed to fall away on
+ * narrow screens, while the larger silhouettes remain. */
+function CityDepth({ city }: { city: City }) {
+  const silhouettes: Record<City, string> = {
+    bangalore:
+      "M12 222V190H58V222 M68 222V176H104V222 M350 222V186H394V222 M790 222V174H830V222 M904 222V190H930V222 M1098 222V184H1184V222",
+    tokyo:
+      "M8 222V184H66V222 M78 222V164H118V222 M242 222V190H270V222 M612 222V178H682V222 M772 222V188H838V222 M1160 222V180H1192V222",
+    newyork:
+      "M10 222V178H44V222 M148 222V166H188V222 M198 222V190H244V222 M350 222V180H370V222 M584 222V174H620V222 M700 222V188H726V222 M794 222V178H814V222",
+    london:
+      "M8 222V184H72V222 M86 222V172H138V222 M146 222V194H168V222 M376 222V188H394V222 M764 222V192H776V222 M974 222V176H1014V222 M1134 222V190H1192V222",
+    singapore:
+      "M8 222V180H56V222 M68 222V190H102V222 M282 222V176H322V222 M432 222V188H470V222 M830 222V178H852V222 M918 222V192H944V222 M1170 222V174H1192V222",
+  };
+  const streetDetails: Record<City, { structure: string; texture: string }> = {
+    bangalore: {
+      structure: "M72 222v-30m-12 0q12-24 24 0q-12 9-24 0 M366 222v-26m-11 0q11-20 22 0q-11 8-22 0 M1082 222v-34m-14 0q14-24 28 0q-14 9-28 0",
+      texture: "M142 158h26m-26 10h26m72-32h28m-28 10h28m586-30h32m-32 10h32m98 28h34m-34 10h34",
+    },
+    tokyo: {
+      structure: "M64 222v-66m-12 14h24m-18-14h12m-6 0v-16m-36 36h72 M782 222v-58m-11 12h22m-16-12h12m-6 0v-14m-30 34h60",
+      texture: "M288 182h36m-36 10h36m70-32h-36m36 10h-36m348 2h44m-44 10h44m382-14h42m-42 10h42",
+    },
+    newyork: {
+      structure: "M174 166v-14h24v14m-20-14v-9h16v9 M590 174v-20h28v20m-22-20v-9h16v9 M716 188l-14 10m14-2-14 10m14-2-14 10",
+      texture: "M154 178h24m-24 10h24m30-12h24m-24 10h24m160-24h22m-22 10h22m198 14h22m-22 10h22",
+    },
+    london: {
+      structure: "M44 184v-18h8v18m30-12v-20h8v20m274 16v-17h8v17 M796 222v-38m-8 0h16m-8 0v-16m-5 0h10",
+      texture: "M18 196h46m28-12h34m350-4h64m18 0h64m18 0h54m184 14h36m-36 10h36",
+    },
+    singapore: {
+      structure: "M72 222v-44m0 7-18-18m18 12 20-20m-20 12-4-24m4 30 9-27 M928 222v-40m0 7-16-16m16 10 18-18m-18 11-3-22",
+      texture: "M292 186h22m-22 10h22m130-8h20m-20 10h20m390-10h18m-18 10h18m260-12h30m-30 10h30",
+    },
+  };
+
+  return (
+    <g {...DEPTH}>
+      <path d={silhouettes[city]} />
+      <path
+        className="skyline-fine"
+        d="M18 208H48 M78 192H96 M358 202H386 M798 190H822 M914 204H924 M1110 198H1174"
+      />
+      <path
+        className="skyline-fine skyline-hatching"
+        d="M22 214l8-8m6 8 8-8m42 6 7-7m274 15 8-8m431 6 7-7m306 12 8-8m10 8 8-8"
+      />
+      <path d={streetDetails[city].structure} fill="none" />
+      <path className="skyline-fine" d={streetDetails[city].texture} fill="none" />
+      <path
+        className="skyline-atmosphere"
+        d="M42 118q18-14 36 0q16-11 32 0 M742 74q19-15 38 0q17-12 34 0 M1060 132q16-12 32 0q14-10 28 0"
+        fill="none"
+      />
+    </g>
+  );
+}
+
+function CityMarginalia({ city }: { city: City }) {
+  const data: Record<
+    City,
+    { code: string; coordinates: string; route: string; contour: string }
+  > = {
+    bangalore: {
+      code: "BLR · GARDEN CITY",
+      coordinates: "12.9716° N  ·  77.5946° E",
+      route: "M74 202 Q238 74 420 164 T782 126 T1128 194",
+      contour: "M-20 420 Q160 350 332 416 T676 402 T1034 416 T1240 372",
+    },
+    tokyo: {
+      code: "TYO · KANTŌ",
+      coordinates: "35.6762° N  ·  139.6503° E",
+      route: "M62 174 Q244 286 430 132 T790 166 T1140 104",
+      contour: "M-10 390 Q184 458 354 396 T704 410 T1030 382 T1220 420",
+    },
+    newyork: {
+      code: "NYC · FIVE BOROUGHS",
+      coordinates: "40.7128° N  ·  74.0060° W",
+      route: "M58 128 C252 252 356 62 554 166 S892 246 1140 116",
+      contour: "M-30 404 Q136 356 306 414 T654 390 T1000 422 T1230 376",
+    },
+    london: {
+      code: "LON · THAMES",
+      coordinates: "51.5072° N  ·  0.1276° W",
+      route: "M54 186 Q218 92 384 172 T716 150 T1148 182",
+      contour: "M-20 392 Q142 452 314 396 T646 414 T974 388 T1220 430",
+    },
+    singapore: {
+      code: "SIN · MARINA BAY",
+      coordinates: "1.3521° N  ·  103.8198° E",
+      route: "M62 148 Q246 244 414 126 T758 164 T1138 92",
+      contour: "M-20 414 Q164 362 336 420 T682 394 T1022 416 T1220 382",
+    },
+  };
+  const detail = data[city];
+
+  return (
+    <svg
+      className="skyline-marginalia absolute inset-0 h-full w-full"
+      viewBox="0 0 1200 640"
+      preserveAspectRatio="none"
+      fill="none"
+    >
+      <g className="skyline-marginalia-lines" stroke="currentColor">
+        <path d={detail.route} strokeDasharray="3 10" />
+        <path d={detail.contour} />
+        <path d="M26 82H132 M26 82V188 M1174 452H1068 M1174 452V558" />
+        <circle cx="92" cy="146" r="38" />
+        <circle cx="92" cy="146" r="27" strokeDasharray="2 6" />
+        <path d="M92 96V196 M42 146H142 M92 108l7 31 31 7-31 7-7 31-7-31-31-7 31-7z" />
+        <path className="skyline-fine" d="M194 74v20m40-20v12m40-12v20m40-20v12m40-12v20m40-20v12 M844 548v18m42-18v10m42-10v18m42-18v10m42-10v18" />
+        <path className="skyline-fine" d="M1008 176q22-18 44 0q20-14 40 0 M196 492q18-14 36 0q16-11 32 0" />
+      </g>
+      <g className="skyline-marginalia-type" fill="currentColor">
+        <text x="156" y="91">{detail.code}</text>
+        <text x="930" y="542">{detail.coordinates}</text>
+        <text className="skyline-fine" x="54" y="221">N · 00°</text>
+        <text className="skyline-fine" x="1038" y="205">FIELD NOTE / 01</text>
+      </g>
+    </svg>
+  );
+}
+
 /* ── Bangalore: Vidhana Soudha, UB City tower, glass blocks ────── */
 
 function Bangalore({ dawn }: { dawn?: boolean }) {
@@ -317,18 +452,20 @@ export default function Skyline({
       ref={ref}
       aria-hidden
       className={cn(
-        "pointer-events-none absolute inset-x-0 bottom-0",
+        "pointer-events-none absolute inset-0",
         light && "opacity-60",
         className,
       )}
     >
-      <motion.div style={reduce ? undefined : { y }}>
+      <CityMarginalia city={city} />
+      <motion.div className="absolute inset-x-0 bottom-0" style={reduce ? undefined : { y }}>
         <svg
-          className="skyline block h-auto w-full"
+          className="skyline block w-full"
           viewBox="0 0 1200 240"
-          preserveAspectRatio="xMidYMax meet"
+          preserveAspectRatio="none"
           fill="none"
         >
+          <CityDepth city={city} />
           {CITIES[city](variant)}
         </svg>
       </motion.div>
