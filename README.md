@@ -1,42 +1,53 @@
-# Vinette Sequeira — Portfolio
+# Hi, I'm Vinette 👋
 
-A single-page personal portfolio themed as a vintage travel atlas / boarding
-pass. Warm paper tones, editorial serif headlines, an atlas-ink blue accent,
-and two signature interactions:
+I'm a product manager at [CallHub](https://callhub.io), based in Bengaluru. I
+build B2B SaaS products that turn expensive, repetitive work into simple
+systems people can rely on.
 
-- **The flight route** — one continuous dashed line runs down the whole page.
-  A plane travels along it, driven by scroll progress, filling in a dashed
-  trail behind it, with passport-stamp waypoints at each section.
-- **City skylines** — recognizable engraved SVG line-art horizons per section
-  (Bengaluru, Tokyo, New York, London, Singapore) with gentle parallax.
+### [Visit my portfolio →](https://vinette.me)
 
-## Run
+## What I do
 
-```sh
-npm install
-npm run dev
-```
+I currently own CallHub's P2P texting, agent quality, and billing products. My
+work spans discovery, product strategy, pricing, specifications, launches, and
+measuring whether what we shipped actually moved the number.
 
-Production build: `npm run build` (output in `dist/`), preview with
-`npm run preview`.
+Some work I'm especially proud of:
 
-## Stack
+- **Recurring Campaigns** — reduced a union's annual setup of 104 campaigns
+  from a manual rebuild to roughly 15 minutes, helping preserve a service used
+  by around 40,000 home care workers.
+- **Agent Quality & Coaching** — built an AI layer that scores call transcripts
+  and turns the results into focused coaching plans.
+- **AI mock-call training** — helped take a two-time hackathon-winning idea
+  into a product where agents rehearse against AI personas.
+- **Credit expiry policy** — drove a cross-functional policy that converted
+  $1.06M in unused prepaid credits from deferred to recognized revenue.
 
-React 18 · Vite 5 · TypeScript · Tailwind CSS 3 · Framer Motion 11 ·
-shadcn/ui-style components (cva + tailwind-merge) · lucide-react.
+## The route so far
 
-Everything is self-contained HTML/SVG/CSS + Framer Motion — no WebGL, no
-external assets beyond Google Fonts (Fraunces + Inter).
+Before moving into product, I spent seven years in quality engineering across
+CallHub, SpotDraft, Kaleyra, Wieland IT Solutions, and Teknotrait Solutions. QA
+taught me to find where products break; product gives me the chance to build
+ones that don't.
 
-## Notes
+Nine years into B2B SaaS, I still gravitate toward the unglamorous half of the
+job: finding the task someone does by hand, understanding its real cost, and
+building software that carries it for them.
 
-- Palette lives as HSL CSS variables in `src/index.css` and is wired into
-  Tailwind tokens in `tailwind.config.ts` (`paper`, `ink`, `accent`, `teal`,
-  `gold`, `line`).
-- `FlightRoute` accepts `marker="bird"` for a wing-flapping bird variant of
-  the travelling marker (default is the plane).
-- Full `prefers-reduced-motion` support: static route with the plane parked
-  at the section in view, no parallax, content simply fades in.
-- On mobile the route runs as a slim rail down the far left and skylines
-  drop their secondary detail.
-- `public/Vinette Sequeira PM.pdf` is the resume served by the portfolio.
+## Currently interested in
+
+AI and agentic products, product discovery, experimentation, pricing and
+monetization, prompt engineering, analytics, and building tools that earn their
+place beyond a good demo.
+
+## Find me elsewhere
+
+- [Portfolio](https://vinette.me)
+- [LinkedIn](https://www.linkedin.com/in/vinette-sequeira/)
+- [Resume](./public/Vinette%20Sequeira%20PM.pdf)
+- [vinette.vs@gmail.com](mailto:vinette.vs@gmail.com)
+
+---
+
+*Charted from Bengaluru. Next stop still being drawn.*
