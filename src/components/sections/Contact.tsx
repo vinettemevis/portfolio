@@ -1,7 +1,6 @@
 import { FileDown, Linkedin, Mail } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Eyebrow, Magnetic, Reveal } from "@/components/motion";
-import Skyline from "@/components/Skyline";
 import { cn } from "@/lib/utils";
 
 interface IconLink {
@@ -38,7 +37,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-paper pb-56 pt-28 sm:pb-80 sm:pt-40"
+      className="relative overflow-hidden bg-paper/85 pb-56 pt-28 backdrop-blur-sm sm:pb-80 sm:pt-40"
     >
       <div className="relative z-10 mx-auto w-full max-w-6xl pl-10 pr-6 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-2xl text-center">
@@ -91,8 +90,6 @@ export default function Contact() {
           </Reveal>
         </div>
       </div>
-
-      <Skyline city="singapore" variant="sunrise" />
     </section>
   );
 }

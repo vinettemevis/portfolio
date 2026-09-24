@@ -9,7 +9,7 @@ const TRUE_THINGS = [
 
 export default function Story() {
   return (
-    <section id="story" className="relative overflow-hidden bg-paper-alt py-28 sm:py-36">
+    <section id="story" className="relative overflow-hidden bg-paper-alt/85 py-28 backdrop-blur-sm sm:py-36">
       <div className="relative z-10 mx-auto w-full max-w-6xl pl-10 pr-6 sm:px-10 lg:px-16">
         <div className="grid gap-14 lg:grid-cols-[7fr_5fr] lg:gap-20">
           <div>

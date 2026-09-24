@@ -10,6 +10,7 @@ export default {
         ink: "hsl(var(--ink) / <alpha-value>)",
         "ink-soft": "hsl(var(--ink-soft) / <alpha-value>)",
         accent: "hsl(var(--accent) / <alpha-value>)",
+        cta: "hsl(var(--cta) / <alpha-value>)",
         teal: "hsl(var(--teal) / <alpha-value>)",
         gold: "hsl(var(--gold) / <alpha-value>)",
         line: "hsl(var(--line) / <alpha-value>)",

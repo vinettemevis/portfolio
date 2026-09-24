@@ -16,7 +16,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Eyebrow, Reveal } from "@/components/motion";
-import Skyline from "@/components/Skyline";
 import { EASE } from "@/lib/utils";
 
 const SKILLS: { label: string; icon: LucideIcon }[] = [
@@ -41,7 +40,7 @@ export default function Pack() {
   return (
     <section
       id="pack"
-      className="relative overflow-hidden bg-paper-alt pb-52 pt-28 sm:pb-72 sm:pt-36"
+      className="relative overflow-hidden bg-paper-alt/85 pb-52 pt-28 backdrop-blur-sm sm:pb-72 sm:pt-36"
     >
       <div className="relative z-10 mx-auto w-full max-w-6xl pl-10 pr-6 sm:px-10 lg:px-16">
         <Reveal>
@@ -67,8 +66,6 @@ export default function Pack() {
           ))}
         </ul>
       </div>
-
-      <Skyline city="london" />
     </section>
   );
 }

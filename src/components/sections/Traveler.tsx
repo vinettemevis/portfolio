@@ -1,5 +1,4 @@
 import { CountUp, Eyebrow, Reveal } from "@/components/motion";
-import Skyline from "@/components/Skyline";
 
 const STATS: {
   value: number;
@@ -23,7 +22,7 @@ export default function Traveler() {
   return (
     <section
       id="traveler"
-      className="relative overflow-hidden bg-paper pb-52 pt-28 sm:pb-72 sm:pt-36"
+      className="relative overflow-hidden bg-paper/85 pb-52 pt-28 backdrop-blur-sm sm:pb-72 sm:pt-36"
     >
       <div className="relative z-10 mx-auto w-full max-w-6xl pl-10 pr-6 sm:px-10 lg:px-16">
         <Reveal>
@@ -64,8 +63,6 @@ export default function Traveler() {
           ))}
         </div>
       </div>
-
-      <Skyline city="tokyo" />
     </section>
   );
 }
