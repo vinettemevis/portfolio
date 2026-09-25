@@ -46,8 +46,8 @@ export function Reveal({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="mb-4 flex items-center gap-3 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-teal">
-      <span aria-hidden className="inline-block h-px w-8 bg-teal/50" />
+    <p className="mb-4 flex items-center gap-3 font-mono text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">
+      <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-accent" />
       {children}
     </p>
   );

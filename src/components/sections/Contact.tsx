@@ -1,6 +1,7 @@
 import { FileDown, Linkedin, Mail } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Eyebrow, Magnetic, Reveal } from "@/components/motion";
+import { Blob } from "@/components/Blob";
 import { cn } from "@/lib/utils";
 
 interface IconLink {
@@ -37,26 +38,29 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-paper/85 pb-56 pt-28 backdrop-blur-sm sm:pb-80 sm:pt-40"
+      className="relative overflow-hidden py-28 sm:py-40"
     >
-      <div className="relative z-10 mx-auto w-full max-w-6xl pl-10 pr-6 sm:px-10 lg:px-16">
+      <Blob className="left-1/2 top-10 -translate-x-1/2 opacity-50" size={520} />
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <div className="flex justify-center">
               <Eyebrow>Plan the Next Leg</Eyebrow>
             </div>
-            <h2 className="font-display text-4xl font-semibold leading-[1.1] tracking-tight text-ink sm:text-5xl">
+            <h2 className="font-display text-4xl leading-[1.1] tracking-tight text-ink sm:text-5xl">
               The best products come from teams that{" "}
-              <em className="font-display italic text-accent">
+              <em className="inline-block pb-1 italic text-accent">
                 travel well together
               </em>
               .
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="mt-6 leading-relaxed text-ink-soft">
-              Building AI products that pay for themselves. If that belongs on
-              your roadmap, my inbox is open.
+            <p className="mt-6 text-[1.05rem] leading-relaxed text-ink-soft">
+              I build AI products that pay for themselves, and I&rsquo;m
+              looking for the next team to do that with, especially one
+              scaling B2B SaaS. If that&rsquo;s you, my inbox is open.
             </p>
           </Reveal>
           <Reveal delay={0.2}>
@@ -80,7 +84,7 @@ export default function Contact() {
                     {...(l.external
                       ? { target: "_blank", rel: "noreferrer noopener" }
                       : {})}
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-line bg-paper-alt text-ink-soft transition-colors duration-300 ease-atlas hover:border-accent hover:text-accent"
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 bg-paper-alt text-ink-soft transition-colors duration-300 ease-atlas hover:border-accent hover:text-accent"
                   >
                     <l.icon aria-hidden className="h-[18px] w-[18px]" />
                   </a>

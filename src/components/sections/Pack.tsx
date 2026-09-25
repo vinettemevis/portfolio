@@ -1,51 +1,32 @@
 import { motion, useReducedMotion } from "framer-motion";
-import {
-  BarChart3,
-  Bot,
-  Coins,
-  Compass,
-  Database,
-  FileText,
-  FlaskConical,
-  LineChart,
-  Map,
-  Rocket,
-  ShieldCheck,
-  Sparkles,
-  Users,
-  type LucideIcon,
-} from "lucide-react";
 import { Eyebrow, Reveal } from "@/components/motion";
 import { EASE } from "@/lib/utils";
 
-const SKILLS: { label: string; icon: LucideIcon }[] = [
-  { label: "Discovery", icon: Compass },
-  { label: "Roadmapping", icon: Map },
-  { label: "Experimentation", icon: FlaskConical },
-  { label: "Analytics", icon: BarChart3 },
-  { label: "Mixpanel", icon: LineChart },
-  { label: "Go-to-market", icon: Rocket },
-  { label: "Pricing & monetization", icon: Coins },
-  { label: "AI & agentic products", icon: Bot },
-  { label: "Prompt engineering", icon: Sparkles },
-  { label: "Stakeholder alignment", icon: Users },
-  { label: "PRDs & specs", icon: FileText },
-  { label: "SQL & instrumentation", icon: Database },
-  { label: "Quality instinct", icon: ShieldCheck },
+const SKILLS = [
+  "Discovery",
+  "Roadmapping",
+  "Experimentation",
+  "Analytics",
+  "Mixpanel",
+  "Go-to-market",
+  "Pricing & monetization",
+  "AI & agentic products",
+  "Prompt engineering",
+  "Stakeholder alignment",
+  "PRDs & specs",
+  "SQL & instrumentation",
+  "Quality instinct",
 ];
 
 export default function Pack() {
   const reduce = useReducedMotion();
 
   return (
-    <section
-      id="pack"
-      className="relative overflow-hidden bg-paper-alt/85 pb-52 pt-28 backdrop-blur-sm sm:pb-72 sm:pt-36"
-    >
-      <div className="relative z-10 mx-auto w-full max-w-6xl pl-10 pr-6 sm:px-10 lg:px-16">
+    <section id="pack" className="relative overflow-hidden py-28 sm:py-36">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-10 lg:px-16">
         <Reveal>
           <Eyebrow>The Pack</Eyebrow>
-          <h2 className="max-w-2xl font-display text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl">
+          <h2 className="max-w-2xl font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl">
             Carried on every expedition.
           </h2>
         </Reveal>
@@ -53,15 +34,14 @@ export default function Pack() {
         <ul className="mt-12 flex max-w-4xl flex-wrap gap-3">
           {SKILLS.map((s, i) => (
             <motion.li
-              key={s.label}
-              className="inline-flex items-center gap-2.5 rounded-full border border-line bg-paper px-5 py-2.5 text-sm font-medium text-ink shadow-warm"
+              key={s}
+              className="rounded-full border border-ink/15 bg-paper px-5 py-2.5 font-mono text-[0.78rem] uppercase tracking-[0.08em] text-ink shadow-warm"
               initial={{ opacity: 0, y: reduce ? 0 : 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.7, delay: 0.05 + i * 0.045, ease: EASE }}
             >
-              <s.icon aria-hidden className="h-4 w-4 text-teal" />
-              {s.label}
+              {s}
             </motion.li>
           ))}
         </ul>

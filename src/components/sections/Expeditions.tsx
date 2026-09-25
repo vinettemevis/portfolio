@@ -1,6 +1,8 @@
-import { Eyebrow, Reveal, TiltCard } from "@/components/motion";
+import { Eyebrow, Reveal } from "@/components/motion";
+import { Blob } from "@/components/Blob";
 
 interface Expedition {
+  index: string;
   tag: string;
   title: string;
   sub: string;
@@ -11,6 +13,7 @@ interface Expedition {
 
 const EXPEDITIONS: Expedition[] = [
   {
+    index: "01",
     tag: "Automation engine",
     title: "Recurring Campaigns",
     sub: "The engine behind CallHub's SEIU Local 503 case study.",
@@ -22,6 +25,7 @@ const EXPEDITIONS: Expedition[] = [
       "Cut yearly setup to 15 minutes, ending 7 years of cumulative manual rebuilds and saving a service for roughly 40,000 workers.",
   },
   {
+    index: "02",
     tag: "AI product",
     title: "Agent Quality & Coaching",
     sub: "An AI layer that turns call transcripts into coaching plans.",
@@ -33,6 +37,7 @@ const EXPEDITIONS: Expedition[] = [
       "Priced per agent-day with ROI proven through before-and-after deltas. Organizers reported new skills after one AI rehearsal session.",
   },
   {
+    index: "03",
     tag: "Monetization",
     title: "Credit Expiry Policy",
     sub: "A pricing and policy play, not a feature.",
@@ -45,74 +50,60 @@ const EXPEDITIONS: Expedition[] = [
   },
 ];
 
-function Block({
-  label,
-  children,
-  accent,
-}: {
-  label: string;
-  children: string;
-  accent?: boolean;
-}) {
-  if (accent) {
-    return (
-      <div className="rounded-lg border-l-2 border-accent bg-accent/[0.06] py-3 pl-4 pr-3">
-        <h4 className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-accent">
-          {label}
-        </h4>
-        <p className="mt-1.5 text-sm leading-relaxed text-ink">{children}</p>
-      </div>
-    );
-  }
+function Field({ label, children }: { label: string; children: string }) {
   return (
-    <div>
-      <h4 className="text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-teal">
+    <div className="flex flex-col gap-1.5">
+      <h4 className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink-faint">
         {label}
       </h4>
-      <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{children}</p>
+      <p className="text-[0.95rem] leading-relaxed text-ink-soft">
+        {children}
+      </p>
     </div>
   );
 }
 
 export default function Expeditions() {
   return (
-    <section
-      id="expeditions"
-      className="relative overflow-hidden bg-paper/85 pb-52 pt-28 backdrop-blur-sm sm:pb-72 sm:pt-36"
-    >
-      <div className="relative z-10 mx-auto w-full max-w-6xl pl-10 pr-6 sm:px-10 lg:px-16">
+    <section id="expeditions" className="relative overflow-hidden py-28 sm:py-36">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-10 lg:px-16">
         <Reveal>
           <Eyebrow>Expeditions</Eyebrow>
-          <h2 className="max-w-2xl font-display text-4xl font-semibold leading-[1.08] tracking-tight text-ink sm:text-5xl">
+          <h2 className="max-w-2xl font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl">
             Work that moved the map.
           </h2>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 flex flex-col">
           {EXPEDITIONS.map((e, i) => (
-            <Reveal key={e.title} delay={0.08 + i * 0.09} className="h-full">
-              <TiltCard className="h-full">
-                <article className="flex h-full flex-col rounded-2xl border border-line bg-paper-alt p-7 shadow-warm transition-shadow duration-500 ease-atlas hover:shadow-warm-lg">
-                  <p className="self-start rounded-full border border-teal/40 px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-teal">
-                    {e.tag}
-                  </p>
-                  <h3 className="mt-5 font-display text-2xl font-semibold tracking-tight text-ink">
-                    {e.title}
-                  </h3>
-                  <p className="mt-1.5 font-display text-sm italic text-ink-soft">
-                    {e.sub}
-                  </p>
-                  <div className="mt-6 flex grow flex-col gap-5 border-t border-dashed border-line pt-6">
-                    <Block label="Problem">{e.problem}</Block>
-                    <Block label="Approach">{e.approach}</Block>
-                    <div className="mt-auto">
-                      <Block label="Result" accent>
-                        {e.result}
-                      </Block>
-                    </div>
+            <Reveal key={e.title} delay={0.08 + i * 0.06}>
+              <article className="grid grid-cols-1 gap-10 border-t border-ink/20 py-14 md:grid-cols-[140px_minmax(0,1fr)] lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-14">
+                <div className="relative h-[120px]">
+                  <Blob className="-left-6 -top-4 opacity-70" size={180} />
+                  <span className="relative font-display text-7xl italic leading-none text-ink lg:text-8xl">
+                    {e.index}
+                  </span>
+                </div>
+
+                <div className="flex flex-col gap-7 md:col-span-2 lg:col-span-1">
+                  <div>
+                    <p className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink-faint">
+                      {e.tag}
+                    </p>
+                    <h3 className="mt-3 font-display text-3xl leading-[1.05] tracking-tight text-ink sm:text-4xl">
+                      {e.title}
+                    </h3>
+                    <p className="mt-1.5 font-display text-lg italic text-ink-soft">
+                      {e.sub}
+                    </p>
                   </div>
-                </article>
-              </TiltCard>
+                  <div className="grid gap-6 sm:grid-cols-3">
+                    <Field label="Problem">{e.problem}</Field>
+                    <Field label="Approach">{e.approach}</Field>
+                    <Field label="Result">{e.result}</Field>
+                  </div>
+                </div>
+              </article>
             </Reveal>
           ))}
         </div>

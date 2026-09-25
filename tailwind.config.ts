@@ -9,20 +9,20 @@ export default {
         "paper-alt": "hsl(var(--paper-alt) / <alpha-value>)",
         ink: "hsl(var(--ink) / <alpha-value>)",
         "ink-soft": "hsl(var(--ink-soft) / <alpha-value>)",
+        "ink-faint": "hsl(var(--ink-faint) / <alpha-value>)",
         accent: "hsl(var(--accent) / <alpha-value>)",
-        cta: "hsl(var(--cta) / <alpha-value>)",
-        teal: "hsl(var(--teal) / <alpha-value>)",
-        gold: "hsl(var(--gold) / <alpha-value>)",
+        "accent-soft": "hsl(var(--accent-soft) / <alpha-value>)",
         line: "hsl(var(--line) / <alpha-value>)",
       },
       fontFamily: {
-        display: ["Fraunces", "Georgia", "Cambria", "serif"],
-        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+        display: ["'Instrument Serif'", "Georgia", "Cambria", "serif"],
+        sans: ["'Instrument Sans'", "system-ui", "-apple-system", "sans-serif"],
+        mono: ["'IBM Plex Mono'", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       boxShadow: {
-        warm: "0 2px 6px -2px hsl(26 28% 15% / 0.06), 0 14px 36px -14px hsl(26 28% 15% / 0.14)",
+        warm: "0 2px 6px -2px hsl(23 33% 12% / 0.06), 0 14px 36px -14px hsl(23 33% 12% / 0.14)",
         "warm-lg":
-          "0 4px 10px -4px hsl(26 28% 15% / 0.08), 0 24px 56px -20px hsl(26 28% 15% / 0.2)",
+          "0 4px 10px -4px hsl(23 33% 12% / 0.08), 0 24px 56px -20px hsl(23 33% 12% / 0.2)",
       },
       transitionTimingFunction: {
         atlas: "cubic-bezier(0.16, 1, 0.3, 1)",

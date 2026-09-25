@@ -3,15 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --paper: 40 44% 96%;
-  --paper-alt: 36 38% 92%;
-  --ink: 26 28% 15%;
-  --ink-soft: 28 12% 40%;
-  --accent: 222 60% 47%; /* atlas-ink blue: emphasis text, links */
-  --cta: 108 45% 32%; /* garden green: primary buttons */
-  --teal: 190 42% 38%;
-  --gold: 38 78% 50%;
-  --line: 32 24% 80%;
+  --paper: 34 37% 89%; /* #EDE4D8 warm cream */
+  --paper-alt: 34 35% 83%; /* #E3D6C5 */
+  --ink: 23 33% 12%; /* #2A1D15 */
+  --ink-soft: 26 23% 24%; /* #4A3A2E */
+  --ink-faint: 27 25% 28%; /* #5A4636 */
+  --accent: 17 68% 54%; /* #D9683A burnt orange */
+  --accent-soft: 36 77% 60%; /* #E8A94C */
+  --line: 23 33% 12%; /* used at low alpha for hairlines */
 }
 
 html {
@@ -29,9 +28,13 @@ html {
 body {
   background-color: hsl(var(--paper));
   color: hsl(var(--ink));
-  font-family: Inter, system-ui, -apple-system, sans-serif;
+  font-family: "Instrument Sans", system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+em {
+  font-style: italic;
 }
 
 /* Faint aged-paper grain over the whole page */
