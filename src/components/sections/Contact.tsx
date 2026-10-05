@@ -58,9 +58,8 @@ export default function Contact() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="mt-6 text-[1.05rem] leading-relaxed text-ink-soft">
-              I build AI products that pay for themselves, and I&rsquo;m
-              looking for the next team to do that with, especially one
-              scaling B2B SaaS. If that&rsquo;s you, my inbox is open.
+              Building AI products that pay for themselves. If that belongs
+              on your roadmap, my inbox is open.
             </p>
           </Reveal>
           <Reveal delay={0.2}>

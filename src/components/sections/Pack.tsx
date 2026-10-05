@@ -25,9 +25,9 @@ export default function Pack() {
     <section id="pack" className="relative overflow-hidden py-28 sm:py-36">
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-10 lg:px-16">
         <Reveal>
-          <Eyebrow>The Pack</Eyebrow>
+          <Eyebrow>Skills &amp; Tools</Eyebrow>
           <h2 className="max-w-2xl font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl">
-            Carried on every expedition.
+            The skills behind the work.
           </h2>
         </Reveal>
 

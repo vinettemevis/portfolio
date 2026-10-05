@@ -1,5 +1,5 @@
-import { Eyebrow, Reveal } from "@/components/motion";
-import { Blob } from "@/components/Blob";
+import { useEffect, useRef } from "react";
+import { Reveal } from "@/components/motion";
 
 interface Expedition {
   index: string;
@@ -50,62 +50,146 @@ const EXPEDITIONS: Expedition[] = [
   },
 ];
 
-function Field({ label, children }: { label: string; children: string }) {
-  return (
-    <div className="flex flex-col gap-1.5">
-      <h4 className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink-faint">
-        {label}
-      </h4>
-      <p className="text-[0.95rem] leading-relaxed text-ink-soft">
-        {children}
-      </p>
-    </div>
-  );
+const THEMES = [
+  { bg: "#f6f0e7", ink: "#2a1c14", soft: "#6b5646", line: "#d9cab6", accent: "#c2410c" },
+  { bg: "#241710", ink: "#efe7dc", soft: "#d8c6b2", line: "rgba(239,231,220,.22)", accent: "#f0a040" },
+  { bg: "#f3c9a0", ink: "#2a1c14", soft: "#5a3a26", line: "rgba(42,28,20,.22)", accent: "#9a3412" },
+];
+
+const label =
+  "m-0 font-mono text-xs font-medium uppercase tracking-[0.14em]";
+
+/** Sticky stacked cards: each card pins, then shrinks and dims as the next one slides over it. */
+function useCardStack(listRef: React.RefObject<HTMLDivElement>) {
+  useEffect(() => {
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const cards = () =>
+      [...(listRef.current?.querySelectorAll<HTMLElement>("[data-stack-card]") ?? [])];
+    const narrow = () => innerWidth < 760 || innerHeight < 600;
+
+    const fit = () =>
+      cards().forEach((c, i) => {
+        if (narrow()) {
+          c.style.position = "relative";
+          c.style.top = "0px";
+          return;
+        }
+        c.style.position = "sticky";
+        const base = 72 + i * 28;
+        c.style.top =
+          (c.offsetHeight + base > innerHeight ? innerHeight - c.offsetHeight - 24 : base) + "px";
+      });
+
+    const onScroll = () => {
+      const cs = cards();
+      cs.forEach((c, i) => {
+        const next = cs[i + 1];
+        if (reduce || narrow() || !next) {
+          c.style.transform = "";
+          c.style.filter = "";
+          return;
+        }
+        const top = parseFloat(getComputedStyle(c).top) || 0;
+        const p = Math.min(1, Math.max(0, 1 - (next.getBoundingClientRect().top - top) / c.offsetHeight));
+        c.style.transform = `scale(${1 - p * 0.05})`;
+        c.style.filter = `brightness(${1 - p * 0.12})`;
+      });
+    };
+    const onResize = () => {
+      fit();
+      onScroll();
+    };
+
+    onResize();
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onResize);
+    return () => {
+      removeEventListener("scroll", onScroll);
+      removeEventListener("resize", onResize);
+    };
+  }, [listRef]);
 }
 
 export default function Expeditions() {
+  const listRef = useRef<HTMLDivElement>(null);
+  useCardStack(listRef);
+
   return (
-    <section id="expeditions" className="relative overflow-hidden py-28 sm:py-36">
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-10 lg:px-16">
-        <Reveal>
-          <Eyebrow>Expeditions</Eyebrow>
-          <h2 className="max-w-2xl font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl">
+    <section
+      id="expeditions"
+      className="px-[clamp(20px,5vw,64px)] py-[clamp(80px,12vw,160px)]"
+    >
+      <div className="mx-auto flex max-w-[1200px] flex-col gap-14">
+        <Reveal className="flex flex-col gap-8">
+          <div className="flex items-center gap-3 font-mono text-[13px] uppercase tracking-[0.08em] text-ink">
+            <span className="text-[#c2410c]">05</span>
+            <span className="h-px w-8 bg-ink" />
+            Selected Work
+          </div>
+          <h2 className="font-display text-[clamp(40px,5.5vw,76px)] font-normal leading-none tracking-[-0.015em] text-ink">
             Work that moved the map.
           </h2>
         </Reveal>
 
-        <div className="mt-16 flex flex-col">
-          {EXPEDITIONS.map((e, i) => (
-            <Reveal key={e.title} delay={0.08 + i * 0.06}>
-              <article className="grid grid-cols-1 gap-10 border-t border-ink/20 py-14 md:grid-cols-[140px_minmax(0,1fr)] lg:grid-cols-[180px_minmax(0,1fr)] lg:gap-14">
-                <div className="relative h-[120px]">
-                  <Blob className="-left-6 -top-4 opacity-70" size={180} />
-                  <span className="relative font-display text-7xl italic leading-none text-ink lg:text-8xl">
-                    {e.index}
-                  </span>
-                </div>
-
-                <div className="flex flex-col gap-7 md:col-span-2 lg:col-span-1">
-                  <div>
-                    <p className="font-mono text-[0.68rem] uppercase tracking-[0.16em] text-ink-faint">
-                      {e.tag}
-                    </p>
-                    <h3 className="mt-3 font-display text-3xl leading-[1.05] tracking-tight text-ink sm:text-4xl">
+        <div ref={listRef} className="flex flex-col gap-6 pb-[8vh]">
+          {EXPEDITIONS.map((e, i) => {
+            const th = THEMES[i % THEMES.length];
+            return (
+              <article
+                key={e.title}
+                data-stack-card
+                className="sticky box-border grid min-h-[min(78vh,720px)] origin-top grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] content-start gap-[clamp(32px,5vw,72px)] rounded-[36px] border p-[clamp(28px,4vw,56px)] shadow-[0_-24px_60px_-40px_rgba(42,28,20,.45)] will-change-transform"
+                style={{ top: 72 + i * 28, background: th.bg, color: th.ink, borderColor: th.line }}
+              >
+                <div className="flex flex-col gap-7">
+                  <div
+                    className="flex items-center gap-4 font-mono text-[13px] uppercase tracking-[0.1em]"
+                    style={{ color: th.soft }}
+                  >
+                    <span>
+                      {e.index} / {String(EXPEDITIONS.length).padStart(2, "0")}
+                    </span>
+                    <span className="h-px w-6" style={{ background: th.soft }} />
+                    <span>{e.tag}</span>
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    <h3 className="font-display text-[clamp(44px,5vw,72px)] font-normal leading-[0.98] tracking-[-0.015em]">
                       {e.title}
                     </h3>
-                    <p className="mt-1.5 font-display text-lg italic text-ink-soft">
+                    <p
+                      className="font-display text-[clamp(20px,1.8vw,24px)] italic"
+                      style={{ color: th.soft }}
+                    >
                       {e.sub}
                     </p>
                   </div>
-                  <div className="grid gap-6 sm:grid-cols-3">
-                    <Field label="Problem">{e.problem}</Field>
-                    <Field label="Approach">{e.approach}</Field>
-                    <Field label="Result">{e.result}</Field>
+                  <div
+                    className="mt-auto flex flex-col gap-2.5 border-t pt-6"
+                    style={{ borderColor: th.line }}
+                  >
+                    <h4 className={label} style={{ color: th.accent }}>
+                      Result
+                    </h4>
+                    <p className="font-display text-[clamp(26px,2.4vw,34px)] leading-[1.15] [text-wrap:pretty]">
+                      {e.result}
+                    </p>
                   </div>
                 </div>
+                <div className="flex flex-col gap-8 pt-2">
+                  {(["Problem", "Approach"] as const).map((k) => (
+                    <div key={k} className="flex flex-col gap-2.5">
+                      <h4 className={label} style={{ color: th.soft }}>
+                        {k}
+                      </h4>
+                      <p className="text-lg leading-relaxed [text-wrap:pretty]">
+                        {k === "Problem" ? e.problem : e.approach}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </article>
-            </Reveal>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

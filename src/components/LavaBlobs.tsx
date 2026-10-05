@@ -57,8 +57,8 @@ export function LavaBlobs({
     }
 
     const size = () => {
-      W = Math.ceil(canvas.clientWidth / 5);
-      H = Math.ceil(canvas.clientHeight / 5);
+      W = Math.max(1, Math.ceil(canvas.clientWidth / 5));
+      H = Math.max(1, Math.ceil(canvas.clientHeight / 5));
       canvas.width = W;
       canvas.height = H;
       img = ctx.createImageData(W, H);

@@ -18,8 +18,11 @@ export default function App() {
         <Pack />
         <Contact />
       </main>
-      <footer className="relative z-10 border-t border-ink/20 py-6 text-center font-mono text-xs uppercase tracking-[0.1em] text-ink-faint">
-        Vinette Sequeira · 2026 · Built in Bengaluru.
+      <footer className="relative z-10 border-t border-ink/20 py-8 text-center font-mono text-xs uppercase tracking-[0.1em] text-ink-faint">
+        <p>Vinette Sequeira · 2026</p>
+        <p className="mt-1.5">
+          Built in Bengaluru. Currently looking for my next PM role.
+        </p>
       </footer>
     </div>
   );

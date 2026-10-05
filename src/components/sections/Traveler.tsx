@@ -23,7 +23,7 @@ export default function Traveler() {
     <section id="traveler" className="relative overflow-hidden py-28 sm:py-36">
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-10 lg:px-16">
         <Reveal>
-          <Eyebrow>The Traveler</Eyebrow>
+          <Eyebrow>Hi, I&rsquo;m Vinette</Eyebrow>
           <h2 className="max-w-3xl font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl">
             Quality taught me how products break. Product lets me build ones
             that don&rsquo;t.
@@ -33,12 +33,10 @@ export default function Traveler() {
           <p className="mt-6 max-w-2xl text-[1.05rem] leading-relaxed text-ink-soft">
             I spent years in quality engineering reading products the way a
             navigator reads weather: finding where they fail before customers
-            do. Most recently I ran product at CallHub, owning P2P texting
-            and the AI layer around it. I shipped features that paid for
-            themselves, from AI call scoring priced per agent-day to a credit
-            policy that turned a seven-figure liability into recognized
-            revenue. Now I&rsquo;m looking for the next team to do that kind
-            of work with.
+            do. Now I run product at CallHub, owning P2P texting and the AI
+            layer around it. I ship features that pay for themselves, from AI
+            call scoring priced per agent-day to a credit policy that turned a
+            seven-figure liability into recognized revenue.
           </p>
         </Reveal>
 

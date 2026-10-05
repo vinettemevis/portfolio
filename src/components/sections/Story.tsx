@@ -44,16 +44,15 @@ export default function Story() {
               </Reveal>
               <Reveal delay={0.2}>
                 <p>
-                  I owned P2P texting, agent quality, and billing. I wrote the
-                  specs, priced the features, shipped them, and checked
-                  whether they moved the number; when something didn&rsquo;t
-                  work, I said so and fixed it. Most of that work was AI: a
-                  layer that scored real calls and coached the agent who
-                  needed it, and a mock-call trainer that started as a
-                  hackathon idea and rehearsed live agents against AI
-                  personas. Good software lets a few people do the work of
-                  many, and that is the kind of problem I want to keep taking
-                  on.
+                  I own P2P texting, agent quality, and billing. I write the
+                  specs, price the features, ship them, and check whether
+                  they moved the number; when something doesn&rsquo;t work, I
+                  say so and fix it. Most of that work is now AI: a layer
+                  that scores real calls and coaches the agent who needs it,
+                  and a mock-call trainer that started as a hackathon idea
+                  and now rehearses live agents against AI personas. Good
+                  software lets a few people do the work of many, and that is
+                  the kind of problem I want to keep taking on.
                 </p>
               </Reveal>
             </div>
