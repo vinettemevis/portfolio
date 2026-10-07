@@ -60,6 +60,13 @@ function LavaPit() {
     if (!started || !pit) return;
     const { Engine, Bodies, Body, Composite, Mouse, MouseConstraint } = Matter;
 
+    const els = textRefs.current.filter(Boolean) as HTMLLIElement[];
+    // Narrow pits stack the pills into a tall column, so grow the pit to fit:
+    // a loose pile is ~55% pills, plus the pool and room for the label.
+    const area = els.reduce((a, el) => a + el.offsetWidth * el.offsetHeight, 0);
+    const need = Math.ceil(area / pit.clientWidth / 0.55 + POOL + 60);
+    if (need > pit.clientHeight) pit.style.height = `${need}px`;
+
     const engine = Engine.create({ gravity: { x: 0, y: 1 } });
     let W = pit.clientWidth;
     let H = pit.clientHeight;
@@ -69,7 +76,6 @@ function LavaPit() {
     const left = Bodies.rectangle(-T / 2, 0, T, H * 6, wall);
     const right = Bodies.rectangle(W + T / 2, 0, T, H * 6, wall);
 
-    const els = textRefs.current.filter(Boolean) as HTMLLIElement[];
     const bodies = els.map((el, i) => {
       const w = el.offsetWidth;
       const h = el.offsetHeight;
