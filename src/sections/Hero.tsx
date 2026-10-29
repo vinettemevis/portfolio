@@ -65,7 +65,7 @@ export default function Hero() {
       <a
         href="#story"
         aria-label="Scroll to story"
-        className="group absolute bottom-6 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-2 p-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-ink-faint transition-colors hover:text-ink"
+        className="group absolute bottom-6 left-1/2 z-10 hidden -translate-x-1/2 sm:flex flex-col items-center gap-2 p-2 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-ink-faint transition-colors hover:text-ink"
       >
         Scroll
         <span aria-hidden className="relative h-10 w-px overflow-hidden bg-ink/20">
