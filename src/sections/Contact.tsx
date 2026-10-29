@@ -1,35 +1,23 @@
 import { FileDown, Linkedin, Mail } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import { button } from "@/components/button";
 import { Eyebrow, Magnetic, Reveal } from "@/components/motion";
-import { Blob } from "@/components/Blob";
-import { cn } from "@/lib/utils";
+import { GlowBlob } from "@/components/lava/GlowBlob";
 
-interface IconLink {
-  label: string;
-  href: string;
-  icon: typeof Linkedin;
-  external: boolean;
-  download?: boolean;
-}
-
-const ICON_LINKS: IconLink[] = [
+const ICON_LINKS = [
   {
     label: "LinkedIn profile",
     href: "https://www.linkedin.com/in/vinette-sequeira/",
     icon: Linkedin,
-    external: true,
   },
   {
     label: "Email Vinette",
     href: "mailto:vinette.vs@gmail.com",
     icon: Mail,
-    external: false,
   },
   {
     label: "Download resume",
     href: "/Vinette%20Sequeira%20PM.pdf",
     icon: FileDown,
-    external: false,
     download: true,
   },
 ];
@@ -40,13 +28,13 @@ export default function Contact() {
       id="contact"
       className="relative overflow-hidden py-28 sm:py-40"
     >
-      <Blob className="left-1/2 top-10 -translate-x-1/2 opacity-50" size={520} />
+      <GlowBlob className="left-1/2 top-10 -translate-x-1/2 opacity-50" />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-10 lg:px-16">
         <div className="mx-auto max-w-2xl text-center">
           <Reveal>
             <div className="flex justify-center">
-              <Eyebrow>Plan the Next Leg</Eyebrow>
+              <Eyebrow n={6} className="mb-6">Plan the Next Leg</Eyebrow>
             </div>
             <h2 className="font-display text-4xl leading-[1.1] tracking-tight text-ink sm:text-5xl">
               The best products come from teams that{" "}
@@ -67,7 +55,7 @@ export default function Contact() {
               <Magnetic>
                 <a
                   href="mailto:vinette.vs@gmail.com"
-                  className={cn(buttonVariants({ size: "lg" }))}
+                  className={button.solid}
                 >
                   vinette.vs@gmail.com
                 </a>
@@ -79,10 +67,11 @@ export default function Contact() {
                   <a
                     href={l.href}
                     aria-label={l.label}
-                    download={l.download}
-                    {...(l.external
-                      ? { target: "_blank", rel: "noreferrer noopener" }
-                      : {})}
+                    download={"download" in l}
+                    {...(l.href.startsWith("http") && {
+                      target: "_blank",
+                      rel: "noreferrer noopener",
+                    })}
                     className="flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 bg-paper-alt text-ink-soft transition-colors duration-300 ease-atlas hover:border-accent hover:text-accent"
                   >
                     <l.icon aria-hidden className="h-[18px] w-[18px]" />

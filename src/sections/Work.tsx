@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { Reveal } from "@/components/motion";
+import { Eyebrow, Reveal } from "@/components/motion";
 
-interface Expedition {
+interface Project {
   index: string;
   tag: string;
   title: string;
@@ -11,7 +11,7 @@ interface Expedition {
   result: string;
 }
 
-const EXPEDITIONS: Expedition[] = [
+const PROJECTS: Project[] = [
   {
     index: "01",
     tag: "Automation engine",
@@ -50,6 +50,7 @@ const EXPEDITIONS: Expedition[] = [
   },
 ];
 
+// Card colours, one per project, in order.
 const THEMES = [
   { bg: "#f6f0e7", ink: "#2a1c14", soft: "#6b5646", line: "#d9cab6", accent: "#c2410c" },
   { bg: "#241710", ink: "#efe7dc", soft: "#d8c6b2", line: "rgba(239,231,220,.22)", accent: "#f0a040" },
@@ -59,7 +60,7 @@ const THEMES = [
 const label =
   "m-0 font-mono text-xs font-medium uppercase tracking-[0.14em]";
 
-/** Sticky stacked cards: each card pins, then shrinks and dims as the next one slides over it. */
+/** Cards pin as you scroll. Each one shrinks and dims while the next slides over it. */
 function useCardStack(listRef: React.RefObject<HTMLDivElement>) {
   useEffect(() => {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -110,33 +111,29 @@ function useCardStack(listRef: React.RefObject<HTMLDivElement>) {
   }, [listRef]);
 }
 
-export default function Expeditions() {
+export default function Work() {
   const listRef = useRef<HTMLDivElement>(null);
   useCardStack(listRef);
 
   return (
     <section
-      id="expeditions"
+      id="work"
       className="px-[clamp(20px,5vw,64px)] py-[clamp(80px,12vw,160px)]"
     >
       <div className="mx-auto flex max-w-[1200px] flex-col gap-14">
         <Reveal className="flex flex-col gap-8">
-          <div className="flex items-center gap-3 font-mono text-[13px] uppercase tracking-[0.08em] text-ink">
-            <span className="text-[#c2410c]">05</span>
-            <span className="h-px w-8 bg-ink" />
-            Selected Work
-          </div>
+          <Eyebrow n={4}>Selected Work</Eyebrow>
           <h2 className="font-display text-[clamp(40px,5.5vw,76px)] font-normal leading-none tracking-[-0.015em] text-ink">
             Work that moved the map.
           </h2>
         </Reveal>
 
         <div ref={listRef} className="flex flex-col gap-6 pb-[8vh]">
-          {EXPEDITIONS.map((e, i) => {
+          {PROJECTS.map((p, i) => {
             const th = THEMES[i % THEMES.length];
             return (
               <article
-                key={e.title}
+                key={p.title}
                 data-stack-card
                 className="sticky box-border grid min-h-[min(78vh,720px)] origin-top grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] content-start gap-[clamp(32px,5vw,72px)] rounded-[36px] border p-[clamp(28px,4vw,56px)] shadow-[0_-24px_60px_-40px_rgba(42,28,20,.45)] will-change-transform"
                 style={{ top: 72 + i * 28, background: th.bg, color: th.ink, borderColor: th.line }}
@@ -147,20 +144,19 @@ export default function Expeditions() {
                     style={{ color: th.soft }}
                   >
                     <span>
-                      {e.index} / {String(EXPEDITIONS.length).padStart(2, "0")}
+                      {p.index} / {String(PROJECTS.length).padStart(2, "0")}
                     </span>
-                    <span className="h-px w-6" style={{ background: th.soft }} />
-                    <span>{e.tag}</span>
+                    <span>{p.tag}</span>
                   </div>
                   <div className="flex flex-col gap-3">
                     <h3 className="font-display text-[clamp(44px,5vw,72px)] font-normal leading-[0.98] tracking-[-0.015em]">
-                      {e.title}
+                      {p.title}
                     </h3>
                     <p
                       className="font-display text-[clamp(20px,1.8vw,24px)] italic"
                       style={{ color: th.soft }}
                     >
-                      {e.sub}
+                      {p.sub}
                     </p>
                   </div>
                   <div
@@ -171,19 +167,20 @@ export default function Expeditions() {
                       Result
                     </h4>
                     <p className="font-display text-[clamp(26px,2.4vw,34px)] leading-[1.15] [text-wrap:pretty]">
-                      {e.result}
+                      {p.result}
                     </p>
                   </div>
                 </div>
                 <div className="flex flex-col gap-8 pt-2">
-                  {(["Problem", "Approach"] as const).map((k) => (
-                    <div key={k} className="flex flex-col gap-2.5">
+                  {[
+                    ["Problem", p.problem],
+                    ["Approach", p.approach],
+                  ].map(([heading, text]) => (
+                    <div key={heading} className="flex flex-col gap-2.5">
                       <h4 className={label} style={{ color: th.soft }}>
-                        {k}
+                        {heading}
                       </h4>
-                      <p className="text-lg leading-relaxed [text-wrap:pretty]">
-                        {k === "Problem" ? e.problem : e.approach}
-                      </p>
+                      <p className="text-lg leading-relaxed [text-wrap:pretty]">{text}</p>
                     </div>
                   ))}
                 </div>

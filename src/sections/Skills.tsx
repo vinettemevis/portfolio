@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import Matter from "matter-js";
-import { Reveal } from "@/components/motion";
+import { Eyebrow, Reveal } from "@/components/motion";
 
 const SKILLS = [
   "Discovery",
@@ -19,7 +19,7 @@ const SKILLS = [
   "Quality instinct",
 ];
 
-// Lava palette: [blob, text]
+// [pill colour, text colour]
 const LAVA = [
   ["#e2531f", "#fff8f0"],
   ["#f0a040", "#2a1c14"],
@@ -27,15 +27,15 @@ const LAVA = [
   ["#f3c9a0", "#2a1c14"],
 ];
 
-const POOL = 22; // height of the lava pool at the bottom, px
+const POOL = 22; // lava pool height, px
 
 const pill =
   "select-none whitespace-nowrap rounded-full px-5 py-2.5 text-[15px] font-medium sm:px-6 sm:py-3 sm:text-base";
 
 /**
- * Skills fall into a dark slab and pile up on a lava pool. Blobs live on a
- * goo-filtered layer so touching pills melt together like metaballs; the
- * text sits on a crisp layer above, synced to the same physics bodies.
+ * Skill pills drop into a dark pit and pile up on a lava pool. You can drag them.
+ * Two layers share one physics body per pill: a blurred colour layer, where
+ * touching pills melt together, and a sharp text layer on top.
  */
 function LavaPit() {
   const pitRef = useRef<HTMLDivElement>(null);
@@ -61,8 +61,7 @@ function LavaPit() {
     const { Engine, Bodies, Body, Composite, Mouse, MouseConstraint } = Matter;
 
     const els = textRefs.current.filter(Boolean) as HTMLLIElement[];
-    // Narrow pits stack the pills into a tall column, so grow the pit to fit:
-    // a loose pile is ~55% pills, plus the pool and room for the label.
+    // Grow the pit on narrow screens so the pile fits (a loose pile is ~55% pills).
     const area = els.reduce((a, el) => a + el.offsetWidth * el.offsetHeight, 0);
     const need = Math.ceil(area / pit.clientWidth / 0.55 + POOL + 60);
     if (need > pit.clientHeight) pit.style.height = `${need}px`;
@@ -90,8 +89,8 @@ function LavaPit() {
     });
     Composite.add(engine.world, [floor, left, right, ...bodies]);
 
-    // Mouse drag. Matter's default touch handlers block page scroll across
-    // the whole pit, so swap them for touch-drag that only starts on a pill.
+    // Drag. Matter's touch handlers block page scroll over the whole pit,
+    // so touch-drag only starts on a pill.
     const mouse = Mouse.create(pit);
     const m = mouse as Matter.Mouse & {
       mousedown: (e: Event) => void;
@@ -139,7 +138,7 @@ function LavaPit() {
       Engine.update(engine, Math.min(32, now - last));
       last = now;
       bodies.forEach((b, i) => {
-        // Tame hard flicks, and drop anything that escapes back in from the top.
+        // Cap flick speed; drop escaped pills back in from the top.
         const v = b.velocity;
         const sp = Math.hypot(v.x, v.y);
         if (sp > 28) Body.setVelocity(b, { x: (v.x / sp) * 28, y: (v.y / sp) * 28 });
@@ -185,7 +184,7 @@ function LavaPit() {
         </filter>
       </svg>
 
-      {/* Goo layer: pill-shaped blobs + lava pool, fused by the filter. */}
+      {/* Colour layer: blobs + pool, melted together by the goo filter. */}
       <div aria-hidden className="absolute inset-0 [filter:url(#lava-goo)]">
         <div
           className="absolute inset-x-0 bottom-0 bg-[#e2531f]"
@@ -205,7 +204,7 @@ function LavaPit() {
         ))}
       </div>
 
-      {/* Crisp text layer, also the drag targets. */}
+      {/* Text layer: also what you grab. */}
       <ul className="absolute inset-0">
         {SKILLS.map((s, i) => (
           <li
@@ -244,21 +243,17 @@ function StaticSkills() {
   );
 }
 
-export default function Pack() {
+export default function Skills() {
   const reduce = useReducedMotion();
 
   return (
     <section
-      id="pack"
+      id="skills"
       className="bg-[#e8ddcf] px-[clamp(20px,5vw,64px)] py-[clamp(80px,12vw,160px)]"
     >
       <div className="mx-auto flex max-w-[1200px] flex-col gap-14">
         <Reveal className="flex flex-col gap-8">
-          <div className="flex items-center gap-3 font-mono text-[13px] uppercase tracking-[0.08em] text-ink">
-            <span className="text-[#c2410c]">06</span>
-            <span className="h-px w-8 bg-ink" />
-            Skills &amp; Tools
-          </div>
+          <Eyebrow n={5}>Skills &amp; Tools</Eyebrow>
           <h2 className="font-display text-[clamp(40px,5.5vw,76px)] font-normal leading-none tracking-[-0.015em] text-ink">
             The skills behind the work.
           </h2>

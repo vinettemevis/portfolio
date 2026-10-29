@@ -18,12 +18,12 @@ const STATS: {
   { value: 9, label: "years building B2B SaaS" },
 ];
 
-export default function Traveler() {
+export default function Intro() {
   return (
-    <section id="traveler" className="relative overflow-hidden py-28 sm:py-36">
+    <section id="intro" className="relative overflow-hidden py-28 sm:py-36">
       <div className="relative z-10 mx-auto w-full max-w-6xl px-6 sm:px-10 lg:px-16">
         <Reveal>
-          <Eyebrow>Hi, I&rsquo;m Vinette</Eyebrow>
+          <Eyebrow n={2} className="mb-6">Hi, I&rsquo;m Vinette</Eyebrow>
           <h2 className="max-w-3xl font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl">
             Quality taught me how products break. Product lets me build ones
             that don&rsquo;t.

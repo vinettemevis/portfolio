@@ -14,7 +14,7 @@ export default function Story() {
         <div className="grid gap-14 lg:grid-cols-[7fr_5fr] lg:gap-20">
           <div>
             <Reveal>
-              <Eyebrow>The Long Way Round</Eyebrow>
+              <Eyebrow n={1} className="mb-6">The Long Way Round</Eyebrow>
               <h2 className="max-w-xl font-display text-4xl leading-[1.08] tracking-tight text-ink sm:text-5xl">
                 I like the unglamorous half of the job.
               </h2>

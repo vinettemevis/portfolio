@@ -1,6 +1,11 @@
 import { useEffect, useRef } from "react";
 
-interface Blob {
+const COLOR = "#E2531F";
+const COUNT = 9;
+const SPEED = 1.6;
+const SCALE = 5; // draw at 1/5 size, the browser upscales
+
+interface Ball {
   x: number;
   r: number;
   ph: number;
@@ -9,23 +14,8 @@ interface Blob {
   amp: number;
 }
 
-/**
- * Canvas metaball field (the "lava lamp" from the reference embed), ported
- * into React with proper effect cleanup. Renders at 1/5 resolution and
- * upscales via the canvas, matching the source snippet's perf budget.
- * Freezes on a single frame under prefers-reduced-motion.
- */
-export function LavaBlobs({
-  className,
-  color = "#E2531F",
-  count = 9,
-  speed = 1.6,
-}: {
-  className?: string;
-  color?: string;
-  count?: number;
-  speed?: number;
-}) {
+/** Full-bleed lava lamp behind the hero. Holds still under reduced motion. */
+export function LavaField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -38,27 +28,25 @@ export function LavaBlobs({
     let W = 0;
     let H = 0;
     let img: ImageData;
+    // Seeded random, so the layout is the same on every load.
     let seed = 7;
     const rnd = () => {
       seed = (seed * 16807) % 2147483647;
       return seed / 2147483647;
     };
 
-    const blobs: Blob[] = [];
-    for (let i = 0; i < count; i++) {
-      blobs.push({
-        x: 0.15 + rnd() * 0.7,
-        r: 0.07 + rnd() * 0.09,
-        ph: rnd() * 6.283,
-        per: 26 + rnd() * 30,
-        wob: rnd() * 6.283,
-        amp: 0.03 + rnd() * 0.05,
-      });
-    }
+    const balls: Ball[] = Array.from({ length: COUNT }, () => ({
+      x: 0.15 + rnd() * 0.7,
+      r: 0.07 + rnd() * 0.09,
+      ph: rnd() * 6.283,
+      per: 26 + rnd() * 30,
+      wob: rnd() * 6.283,
+      amp: 0.03 + rnd() * 0.05,
+    }));
 
     const size = () => {
-      W = Math.max(1, Math.ceil(canvas.clientWidth / 5));
-      H = Math.max(1, Math.ceil(canvas.clientHeight / 5));
+      W = Math.max(1, Math.ceil(canvas.clientWidth / SCALE));
+      H = Math.max(1, Math.ceil(canvas.clientHeight / SCALE));
       canvas.width = W;
       canvas.height = H;
       img = ctx.createImageData(W, H);
@@ -67,16 +55,15 @@ export function LavaBlobs({
     const observer = new ResizeObserver(size);
     observer.observe(canvas);
 
-    const cr = parseInt(color.slice(1, 3), 16);
-    const cg = parseInt(color.slice(3, 5), 16);
-    const cb = parseInt(color.slice(5, 7), 16);
+    const [cr, cg, cb] = [1, 3, 5].map((i) => parseInt(COLOR.slice(i, i + 2), 16));
     const t0 = performance.now();
     let raf = 0;
 
     const frame = (now: number) => {
-      const t = reduce ? 0 : ((now - t0) / 1000) * speed;
+      const t = reduce ? 0 : ((now - t0) / 1000) * SPEED;
       const asp = W / H;
-      const P = blobs.map((b) => {
+      // Each ball rises and sinks on its own period, stretching as it moves.
+      const P = balls.map((b) => {
         const a = (t * 6.283) / b.per + b.ph;
         return [
           (b.x + Math.sin(t * 0.23 + b.wob) * b.amp) * asp,
@@ -90,6 +77,7 @@ export function LavaBlobs({
         const py = j / H;
         for (let i = 0; i < W; i++) {
           const px = i / H;
+          // Sum of every ball's pull on this pixel; above ~1 it's "lava".
           let f = 0;
           for (const p of P) {
             const dx = px - p[0];
@@ -115,13 +103,12 @@ export function LavaBlobs({
       cancelAnimationFrame(raf);
       observer.disconnect();
     };
-  }, [color, count, speed]);
+  }, []);
 
   return (
     <canvas
       ref={canvasRef}
       aria-hidden
-      className={className}
       style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
     />
   );

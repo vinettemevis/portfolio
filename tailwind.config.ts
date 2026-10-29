@@ -12,6 +12,7 @@ export default {
         "ink-faint": "hsl(var(--ink-faint) / <alpha-value>)",
         accent: "hsl(var(--accent) / <alpha-value>)",
         "accent-soft": "hsl(var(--accent-soft) / <alpha-value>)",
+        "accent-ink": "hsl(var(--accent-ink) / <alpha-value>)",
         line: "hsl(var(--line) / <alpha-value>)",
       },
       fontFamily: {

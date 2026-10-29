@@ -5,34 +5,24 @@ import {
   useReducedMotion,
   useSpring,
 } from "framer-motion";
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  type PointerEvent,
-  type ReactNode,
-} from "react";
+import { useEffect, useRef, useState, type PointerEvent, type ReactNode } from "react";
 import { cn, EASE } from "@/lib/utils";
 
-/* ── Fade + rise entrance ──────────────────────────────────────── */
-
+/** Fades and rises into place the first time it scrolls into view. */
 export function Reveal({
   children,
   className,
   delay = 0,
-  y = 28,
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
-  y?: number;
 }) {
   const reduce = useReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: reduce ? 0 : y }}
+      initial={{ opacity: 0, y: reduce ? 0 : 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.9, delay, ease: EASE }}
@@ -42,55 +32,84 @@ export function Reveal({
   );
 }
 
-/* ── Section eyebrow ───────────────────────────────────────────── */
-
-export function Eyebrow({ children }: { children: ReactNode }) {
+/** Section label: "03 Where I've worked". */
+export function Eyebrow({
+  n,
+  children,
+  className,
+}: {
+  n: number;
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <p className="mb-4 flex items-center gap-3 font-mono text-[0.72rem] uppercase tracking-[0.18em] text-ink-faint">
-      <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-accent" />
+    <p
+      className={cn(
+        "flex items-center gap-3 font-mono text-[13px] uppercase tracking-[0.08em] text-ink",
+        className,
+      )}
+    >
+      <span className="text-accent-ink">{String(n).padStart(2, "0")}</span>
       {children}
     </p>
   );
 }
 
-/* ── Magnetic hover (CTAs) ─────────────────────────────────────── */
-
-export function Magnetic({
+/** h1 whose words slide up one after another. Wrap a word in `*` to italicise it. */
+export function SplitHeading({
   children,
   className,
-  strength = 0.28,
+  delay = 0,
 }: {
-  children: ReactNode;
+  children: string;
   className?: string;
-  strength?: number;
+  delay?: number;
 }) {
   const reduce = useReducedMotion();
+  const words = children.split(" ");
+  return (
+    <h1 className={className} aria-label={children.replace(/\*/g, "")}>
+      {words.map((word, i) => (
+        <span key={i} aria-hidden className="inline-block overflow-hidden pb-[0.12em] align-bottom">
+          <motion.span
+            className={cn("inline-block", word.startsWith("*") && "italic")}
+            initial={reduce ? false : { y: "110%" }}
+            animate={{ y: 0 }}
+            transition={{ duration: 0.9, delay: delay + i * 0.06, ease: EASE }}
+          >
+            {word.replace(/\*/g, "")}
+          </motion.span>
+          {i < words.length - 1 && " "}
+        </span>
+      ))}
+    </h1>
+  );
+}
+
+/** Pulls its child up to 10px toward the cursor. Mouse only. */
+export function Magnetic({ children }: { children: ReactNode }) {
+  const reduce = useReducedMotion();
+  const spring = { stiffness: 260, damping: 18, mass: 0.4 };
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 260, damping: 18, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 260, damping: 18, mass: 0.4 });
+  const sx = useSpring(x, spring);
+  const sy = useSpring(y, spring);
+  const pull = (d: number) => Math.max(-10, Math.min(10, d * 0.28));
 
-  const onMove = useCallback(
-    (e: PointerEvent<HTMLDivElement>) => {
-      if (reduce || e.pointerType === "touch") return;
-      const r = e.currentTarget.getBoundingClientRect();
-      const dx = e.clientX - (r.left + r.width / 2);
-      const dy = e.clientY - (r.top + r.height / 2);
-      const clamp = (v: number) => Math.max(-10, Math.min(10, v * strength));
-      x.set(clamp(dx));
-      y.set(clamp(dy));
-    },
-    [reduce, strength, x, y],
-  );
-
-  const onLeave = useCallback(() => {
+  const onMove = (e: PointerEvent<HTMLDivElement>) => {
+    if (reduce || e.pointerType === "touch") return;
+    const r = e.currentTarget.getBoundingClientRect();
+    x.set(pull(e.clientX - (r.left + r.width / 2)));
+    y.set(pull(e.clientY - (r.top + r.height / 2)));
+  };
+  const onLeave = () => {
     x.set(0);
     y.set(0);
-  }, [x, y]);
+  };
 
   return (
     <motion.div
-      className={cn("inline-block", className)}
+      className="inline-block"
       style={reduce ? undefined : { x: sx, y: sy }}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
@@ -100,20 +119,17 @@ export function Magnetic({
   );
 }
 
-/* ── Count-up stat ─────────────────────────────────────────────── */
-
+/** Counts from 0 to `value` over 1.6s once visible. */
 export function CountUp({
   value,
   decimals = 0,
   prefix = "",
   suffix = "",
-  duration = 1.6,
 }: {
   value: number;
   decimals?: number;
   prefix?: string;
   suffix?: string;
-  duration?: number;
 }) {
   const reduce = useReducedMotion();
   const ref = useRef<HTMLSpanElement>(null);
@@ -122,21 +138,17 @@ export function CountUp({
 
   useEffect(() => {
     if (!inView) return;
-    if (reduce) {
-      setDisplay(value);
-      return;
-    }
+    if (reduce) return setDisplay(value);
     let raf = 0;
     const start = performance.now();
     const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / (duration * 1000));
-      const eased = 1 - Math.pow(1 - t, 4);
-      setDisplay(value * eased);
+      const t = Math.min(1, (now - start) / 1600);
+      setDisplay(value * (1 - Math.pow(1 - t, 4))); // ease-out
       if (t < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, reduce, value, duration]);
+  }, [inView, reduce, value]);
 
   return (
     <span ref={ref} className="tabular-nums">
@@ -144,51 +156,5 @@ export function CountUp({
       {display.toFixed(decimals)}
       {suffix}
     </span>
-  );
-}
-
-/* ── Cursor tilt (case-study cards) ────────────────────────────── */
-
-export function TiltCard({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
-  const reduce = useReducedMotion();
-  const rx = useSpring(useMotionValue(0), { stiffness: 220, damping: 18 });
-  const ry = useSpring(useMotionValue(0), { stiffness: 220, damping: 18 });
-
-  const onMove = useCallback(
-    (e: PointerEvent<HTMLDivElement>) => {
-      if (reduce || e.pointerType === "touch") return;
-      const r = e.currentTarget.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      ry.set(px * 14 > 8 ? 8 : px * 14 < -8 ? -8 : px * 14);
-      rx.set(-py * 12 > 8 ? 8 : -py * 12 < -8 ? -8 : -py * 12);
-    },
-    [reduce, rx, ry],
-  );
-
-  const onLeave = useCallback(() => {
-    rx.set(0);
-    ry.set(0);
-  }, [rx, ry]);
-
-  return (
-    <motion.div
-      className={className}
-      style={
-        reduce
-          ? undefined
-          : { rotateX: rx, rotateY: ry, transformPerspective: 1000 }
-      }
-      onPointerMove={onMove}
-      onPointerLeave={onLeave}
-    >
-      {children}
-    </motion.div>
   );
 }

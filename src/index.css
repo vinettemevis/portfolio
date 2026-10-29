@@ -10,13 +10,16 @@
   --ink-faint: 27 25% 28%; /* #5A4636 */
   --accent: 17 68% 54%; /* #D9683A burnt orange */
   --accent-soft: 36 77% 60%; /* #E8A94C */
-  --line: 23 33% 12%; /* used at low alpha for hairlines */
+  --accent-ink: 21 90% 40%; /* #C2410C, readable on cream at small sizes */
+  --line: 23 33% 12%; /* hairlines, used at low opacity */
 }
 
 html {
-  /* non-static so framer-motion scroll offsets resolve without warnings */
+  /* framer-motion needs a positioned root to measure scroll */
   position: relative;
   scroll-behavior: smooth;
+  /* stop anchor links landing under the fixed header */
+  scroll-padding-top: 5rem;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -37,7 +40,7 @@ em {
   font-style: italic;
 }
 
-/* Faint aged-paper grain over the whole page */
+/* paper grain over the whole page */
 body::after {
   content: "";
   position: fixed;
@@ -52,6 +55,15 @@ body::after {
 ::selection {
   background-color: hsl(var(--accent) / 0.9);
   color: hsl(var(--paper));
+}
+
+@keyframes scroll-cue {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(200%);
+  }
 }
 
 :focus-visible {
